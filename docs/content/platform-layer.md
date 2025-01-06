@@ -1,14 +1,14 @@
 # Platform Layer
 
-This layer provides the platforms which applications and services are deployed on in the [Software Layer](https://bcbrookman.github.io/homelab/software-layer/). It includes for example, guest operating systems, container orchestration platforms (i.e. [Kubernetes](https://kubernetes.io)), and database management systems.
+This layer provides the platforms which applications and services are deployed on in the [Software Layer](https://bcbrookman.github.io/homeops/software-layer/). It includes for example, guest operating systems, container orchestration platforms (i.e. [Kubernetes](https://kubernetes.io)), and database management systems.
 
-![layers](assets/homelab-layers-pf.svg)
+![layers](assets/homeops-layers-pf.svg)
 
 ## Platforms
 
 ### Kubernetes
 
-[K3s](https://k3s.io) is currently the distribution used in my Homelab for its small footprint and simple deployment.
+[K3s](https://k3s.io) is currently the distribution used in my home infrastructure for its small footprint and simple deployment.
 
 The K3s cluster is deployed on Debian virtual machines across each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. The virtual machines for the cluster are provisioned using [Terraform](https://www.terraform.io/), and K3s is then installed and configured using Ansible (see [Tooling](#tooling) below).
 

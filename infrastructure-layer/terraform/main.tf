@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "bcbrookman"
     workspaces {
-      tags = ["homelab"]
+      tags = ["homeops"]
     }
   }
   required_providers {
