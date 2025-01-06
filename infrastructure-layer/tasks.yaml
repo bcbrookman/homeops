@@ -56,7 +56,7 @@ tasks:
       - terraform init -input=false
       - terraform validate
     env:
-      TF_WORKSPACE: homelab-if-layer
+      TF_WORKSPACE: homeops-if-layer
 
   deploy:terraform:
     dir: ./terraform/
@@ -64,4 +64,4 @@ tasks:
       - terraform init -input=false
       - terraform apply -input=false -auto-approve
     env:
-      TF_WORKSPACE: homelab-if-layer
+      TF_WORKSPACE: homeops-if-layer

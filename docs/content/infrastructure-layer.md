@@ -1,8 +1,8 @@
 # Infrastructure Layer
 
-This layer provides the basic networking, storage, and compute resources used by the [Platform Layer](https://bcbrookman.github.io/homelab/platform-layer/). It includes physical hardware, hypervisors, and other infrastructure components.
+This layer provides the basic networking, storage, and compute resources used by the [Platform Layer](https://bcbrookman.github.io/homeops/platform-layer/). It includes physical hardware, hypervisors, and other infrastructure components.
 
-![infrastructure layer diagram](assets/homelab-layers-if.svg)
+![infrastructure layer diagram](assets/homeops-layers-if.svg)
 
 ## Compute
 
@@ -38,7 +38,7 @@ Logically, the network is divided into VLANs by usage.
 - The IoT VLAN
 - The Guest VLAN
 
-![logical network topology diagram](assets/homelab-logical-network-topology.svg)
+![logical network topology diagram](assets/homeops-logical-network-topology.svg)
 
 As illustrated in the logical topology diagram above, traffic to and from each VLAN is policed by firewalls. In general, the firewall rules restrict access according to the following table.
 
@@ -64,7 +64,7 @@ Physically, the network topology is fairly small using only a handful of desktop
 
 The network is designed with redundant network paths wherever possible, but much of the service redundancy is handled at the application level.
 
-![physical network topology diagram](assets/homelab-physical-network-topology.svg)
+![physical network topology diagram](assets/homeops-physical-network-topology.svg)
 
 The WAN router is only used to allow for redundant [pfSense](https://www.pfsense.org/) firewalls with only one dynamic public IP address. Outbound traffic is source NATed to the current WAN interface address, and all inbound traffic is destination NATed to the floating WAN CARP virtual address. In many consumer routers, this would be similar to setting the WAN CARP virtual address as the DMZ host.
 

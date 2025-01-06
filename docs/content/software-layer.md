@@ -2,7 +2,7 @@
 
 This layer provides the applications and services that users interact with. It includes deployed applications, along with their definitions and configurations.
 
-![layers](assets/homelab-layers-sw.svg)
+![layers](assets/homeops-layers-sw.svg)
 
 ## Apps & Services
 

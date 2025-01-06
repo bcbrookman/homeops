@@ -63,7 +63,7 @@ tasks:
       - task: docker-test:pull
       - task: docker-test:run
     status:
-      - docker ps | grep homelab-cicd
+      - docker ps | grep homeops-cicd
 
   docker-test:setup:
     desc: Run setup tasks inside CI/CD test container
@@ -80,7 +80,7 @@ tasks:
   docker-test:kill:
     desc: Kill CI/CD test container
     cmds:
-      - docker rm --force homelab-cicd
+      - docker rm --force homeops-cicd
 
   docker-test:shell:
     aliases: [docker-test]
@@ -88,76 +88,76 @@ tasks:
     deps:
       - docker-test:setup
     cmds:
-      - docker exec -it homelab-cicd bash
+      - docker exec -it homeops-cicd bash
 
   docker-test:pull: docker pull summerwind/actions-runner-dind:latest
 
-  docker-test:run: docker run --name homelab-cicd
+  docker-test:run: docker run --name homeops-cicd
                    --detach -it --env-file .env.staging
-                   -v ./:/homelab -w /homelab --privileged
+                   -v ./:/homeops -w /homeops --privileged
                    -p 8000:8000
                    summerwind/actions-runner-dind:latest bash -c 'sleep infinity'
-                   || docker start homelab-cicd
+                   || docker start homeops-cicd
 
-  docker-test:apt-update: docker exec homelab-cicd sudo apt update
+  docker-test:apt-update: docker exec homeops-cicd sudo apt update
 
   docker-test:setup-ansible:
     cmds:
-      - docker exec homelab-cicd bash -c 'mkdir -p ~/.ssh/'
-      - docker exec homelab-cicd bash -c 'echo -e ${ANSIBLE_SSH_KEY} > ~/.ssh/id_rsa'
-      - docker exec homelab-cicd bash -c 'chmod 0600 ~/.ssh/id_rsa'
+      - docker exec homeops-cicd bash -c 'mkdir -p ~/.ssh/'
+      - docker exec homeops-cicd bash -c 'echo -e ${ANSIBLE_SSH_KEY} > ~/.ssh/id_rsa'
+      - docker exec homeops-cicd bash -c 'chmod 0600 ~/.ssh/id_rsa'
     status:
-      - docker exec homelab-cicd bash -c 'test -f ~/.ssh/id_rsa'
+      - docker exec homeops-cicd bash -c 'test -f ~/.ssh/id_rsa'
 
   docker-test:setup-python:
     cmds:
       - task: docker-test:apt-update
-      - docker exec homelab-cicd sudo add-apt-repository -y ppa:deadsnakes/ppa
-      - docker exec homelab-cicd sudo apt install -y python3.12 python3.12-distutils
-      - docker exec homelab-cicd sudo ln -sf /usr/bin/python3.12 /usr/bin/python3
-      - docker exec homelab-cicd wget https://bootstrap.pypa.io/get-pip.py
-      - docker exec homelab-cicd sudo python3 get-pip.py
+      - docker exec homeops-cicd sudo add-apt-repository -y ppa:deadsnakes/ppa
+      - docker exec homeops-cicd sudo apt install -y python3.12 python3.12-distutils
+      - docker exec homeops-cicd sudo ln -sf /usr/bin/python3.12 /usr/bin/python3
+      - docker exec homeops-cicd wget https://bootstrap.pypa.io/get-pip.py
+      - docker exec homeops-cicd sudo python3 get-pip.py
     status:
-      - docker exec homelab-cicd python3 --version | grep -i 'Python 3.12'
-      - docker exec homelab-cicd pip3 --version | grep -i 'Python 3.12'
+      - docker exec homeops-cicd python3 --version | grep -i 'Python 3.12'
+      - docker exec homeops-cicd pip3 --version | grep -i 'Python 3.12'
 
   docker-test:setup-task:
     cmds:
-      - docker exec homelab-cicd
+      - docker exec homeops-cicd
         sudo sh -c "$(curl -L https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin/
     status:
-      - docker exec homelab-cicd task --version
+      - docker exec homeops-cicd task --version
 
   docker-test:setup-sops:
     cmds:
-      - docker exec homelab-cicd
+      - docker exec homeops-cicd
         sudo curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.amd64
         --output /tmp/sops
-      - docker exec homelab-cicd sudo mv /tmp/sops /usr/local/bin/
-      - docker exec homelab-cicd sudo chmod +x /usr/local/bin/sops
+      - docker exec homeops-cicd sudo mv /tmp/sops /usr/local/bin/
+      - docker exec homeops-cicd sudo chmod +x /usr/local/bin/sops
     status:
-      - docker exec homelab-cicd sops --version | grep 3.7.3
+      - docker exec homeops-cicd sops --version | grep 3.7.3
 
   docker-test:setup-terraform:
     cmds:
-      - docker exec homelab-cicd
+      - docker exec homeops-cicd
         sudo curl -L https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_amd64.zip
         --output /tmp/terraform.zip
-      - docker exec homelab-cicd sudo unzip -o /tmp/terraform.zip -d /tmp/terraform/
-      - docker exec homelab-cicd sudo mv /tmp/terraform/terraform /usr/local/bin/
-      - docker exec homelab-cicd bash -c 'mkdir -p ~/.terraform.d/'
-      - docker exec homelab-cicd bash -c 'echo {{.TF_CREDENTIALS_JSON}} > ~/.terraform.d/credentials.tfrc.json'
+      - docker exec homeops-cicd sudo unzip -o /tmp/terraform.zip -d /tmp/terraform/
+      - docker exec homeops-cicd sudo mv /tmp/terraform/terraform /usr/local/bin/
+      - docker exec homeops-cicd bash -c 'mkdir -p ~/.terraform.d/'
+      - docker exec homeops-cicd bash -c 'echo {{.TF_CREDENTIALS_JSON}} > ~/.terraform.d/credentials.tfrc.json'
     status:
-      - docker exec homelab-cicd terraform -version | grep v1.4.4
-      - docker exec homelab-cicd bash -c 'test -f ~/.terraform.d/credentials.tfrc.json'
+      - docker exec homeops-cicd terraform -version | grep v1.4.4
+      - docker exec homeops-cicd bash -c 'test -f ~/.terraform.d/credentials.tfrc.json'
     vars:
       TF_CREDENTIALS_JSON: '{\"credentials\": {\"app.terraform.io\": {\"token\": \"${TF_API_TOKEN}\"}}}'
 
   docker-test:start-dind:
     cmds:
-      - docker exec homelab-cicd bash -c 'sudo dockerd &'
+      - docker exec homeops-cicd bash -c 'sudo dockerd &'
     status:
-      - docker exec homelab-cicd pgrep -r S -f dockerd
+      - docker exec homeops-cicd pgrep -r S -f dockerd
 
   root:lint:
     desc: Lint files in the project root

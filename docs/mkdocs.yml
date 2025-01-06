@@ -1,6 +1,6 @@
 ---
-site_name: Homelab
-site_url: https://bcbrookman.github.io/homelab/
+site_name: HomeOps
+site_url: https://bcbrookman.github.io/homeops/
 docs_dir: ./content
 
 theme:

@@ -2,7 +2,7 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
-  name: homelab-actions-runner
+  name: homeops-actions-runner
 spec:
   template:
     spec:
@@ -10,13 +10,13 @@ spec:
         options:
           - name: ndots
             value: '1'
-      repository: bcbrookman/homelab
+      repository: bcbrookman/homeops
 
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
-  name: homelab-actions-runner-autoscaler
+  name: homeops-actions-runner-autoscaler
 spec:
   maxReplicas: 5
   metrics:
@@ -28,4 +28,4 @@ spec:
   minReplicas: 1
   scaleTargetRef:
     kind: RunnerDeployment
-    name: homelab-actions-runner
+    name: homeops-actions-runner

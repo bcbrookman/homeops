@@ -32,7 +32,7 @@ tasks:
       - terraform init -input=false
       - terraform validate
     env:
-      TF_WORKSPACE: homelab-pf-layer
+      TF_WORKSPACE: homeops-pf-layer
 
   lint:yaml:
     deps:
@@ -65,4 +65,4 @@ tasks:
       - terraform init -input=false
       - terraform apply -input=false -auto-approve
     env:
-      TF_WORKSPACE: homelab-pf-layer
+      TF_WORKSPACE: homeops-pf-layer
