@@ -24,7 +24,7 @@ spec:
               value: '1001'
             - name: TZ
               value: UTC
-          image: b4bz/homer:v23.10.1 # {"$imagepolicy": "flux-system:homer"}
+          image: b4bz/homer:v24.12.1 # {"$imagepolicy": "flux-system:homer"}
           livenessProbe:
             failureThreshold: 6
             httpGet:
