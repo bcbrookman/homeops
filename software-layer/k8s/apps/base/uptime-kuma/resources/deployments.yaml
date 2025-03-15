@@ -24,7 +24,7 @@ spec:
               value: '1001'
             - name: TZ
               value: UTC
-          image: louislam/uptime-kuma:1.23.13-alpine # {"$imagepolicy": "flux-system:uptime-kuma"}
+          image: louislam/uptime-kuma:1.23.16-alpine # {"$imagepolicy": "flux-system:uptime-kuma"}
           livenessProbe:
             failureThreshold: 6
             httpGet:
