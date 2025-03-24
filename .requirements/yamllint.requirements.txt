@@ -1,2 +1,2 @@
 # Python requirements file
-yamllint==1.35.1
+yamllint==1.37.0
