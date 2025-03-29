@@ -73,7 +73,7 @@ resource "proxmox_vm_qemu" "k3s-vm" {
   qemu_os          = "l26"
   cores            = var.cores
   sockets          = 1
-  cpu              = "host"
+  cpu_type         = "host"
   memory           = var.memory
   scsihw           = "virtio-scsi-pci"
   onboot           = true
@@ -97,6 +97,7 @@ resource "proxmox_vm_qemu" "k3s-vm" {
     }
   }
   network {
+    id = 0
     model  = "virtio"
     bridge = "vmbr0"
     tag    = 20
