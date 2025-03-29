@@ -24,7 +24,7 @@ spec:
               value: '1001'
             - name: TZ
               value: UTC
-          image: lscr.io/linuxserver/tautulli:2.14.3 # {"$imagepolicy": "flux-system:tautulli"}
+          image: lscr.io/linuxserver/tautulli:2.15.1 # {"$imagepolicy": "flux-system:tautulli"}
           livenessProbe:
             failureThreshold: 6
             httpGet:
