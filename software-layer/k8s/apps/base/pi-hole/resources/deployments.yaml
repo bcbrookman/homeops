@@ -30,7 +30,7 @@ spec:
               value: 192.168.20.1
             - name: DNSMASQ_LISTENING
               value: all
-          image: pihole/pihole:2024.07.0 # {"$imagepolicy": "flux-system:pi-hole"}
+          image: pihole/pihole:2025.03.0 # {"$imagepolicy": "flux-system:pi-hole"}
           livenessProbe:
             failureThreshold: 6
             initialDelaySeconds: 10
