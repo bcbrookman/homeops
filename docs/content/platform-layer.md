@@ -12,7 +12,7 @@ This layer provides the platforms which applications and services are deployed o
 
 The K3s cluster is deployed on Debian virtual machines across each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. The virtual machines for the cluster are provisioned using [Terraform](https://www.terraform.io/), and K3s is then installed and configured using Ansible (see [Tooling](#tooling) below).
 
-The stable API endpoint IP address required for highly available K3s clusters is provided by an [HAProxy](https://www.haproxy.org/) load balancer installed on the WAN [pfSense](https://www.pfsense.org/) firewalls. Since the firewalls are already configured as highly available, the HAProxy servers installed on them are also highly available with no extra configuration.
+The stable API endpoint IP address required for highly available K3s clusters is currently provided by a single [HAProxy](https://www.haproxy.org/) load balancer installed on the WAN [pfSense](https://www.pfsense.org/) firewall. This is only temporary during migration to a new cluster which will leverage a VIP feature instead.
 
 To avoid using more compute resources than necessary, each K3s node currently serves both K3s server (control plane) and K3s agent (worker) roles. However, this strategy may change in the future.
 
