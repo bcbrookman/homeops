@@ -2,7 +2,7 @@
 # Groups of hosts
 pfsense_firewalls:
   hosts:
-    pfsense[01:02]:
+    pfsense01:
 proxmox_servers:
   hosts:
     pve[01:03]:

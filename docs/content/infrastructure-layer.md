@@ -40,7 +40,7 @@ Logically, the network is divided into VLANs by usage.
 
 ![logical network topology diagram](assets/homeops-logical-network-topology.svg)
 
-As illustrated in the logical topology diagram above, traffic to and from each VLAN is policed by firewalls. In general, the firewall rules restrict access according to the following table.
+As illustrated in the logical topology diagram above, traffic to and from each VLAN is policed by a firewall. In general, the firewall rules restrict access according to the following table.
 
 |Source|Allowed Destinations|
 |------|--------------------|
@@ -52,21 +52,25 @@ As illustrated in the logical topology diagram above, traffic to and from each V
 
 *As needed, for specific hosts/services only
 
-Physically, the network topology is fairly small using only a handful of desktop switches, access points, and an internet firewall.
+Physically, the network topology is fairly simple with only a handful of desktop switches, access points, and an internet firewall.
 
 |Qty.|Model|CPU|Memory|Storage|Usage|
 |----|-----|---|------|-------|-----|
-|1|Mikrotik hEX RB750Gr3|MMIPS MT7621A|256MB|16MB|WAN Router|
-|2|HP T740 Thin Client|AMD Ryzen V1756B|32GB|500GB|Firewall|
+|1|HP T740 Thin Client|AMD Ryzen V1756B|32GB|500GB|Firewall|
 |1|UniFi FlexHD|---|---|---|Wi-Fi|
 |1|UniFi AP U6 Extender|---|---|---|Wi-Fi|
+|1|UniFi USW-Flex-Mini|---|---|---|Switching|
 |3|UniFi USW-8|---|---|---|Switching|
-
-The network is designed with redundant network paths wherever possible, but much of the service redundancy is handled at the application level.
 
 ![physical network topology diagram](assets/homeops-physical-network-topology.svg)
 
-The WAN router is only used to allow for redundant [pfSense](https://www.pfsense.org/) firewalls with only one dynamic public IP address. Outbound traffic is source NATed to the current WAN interface address, and all inbound traffic is destination NATed to the floating WAN CARP virtual address. In many consumer routers, this would be similar to setting the WAN CARP virtual address as the DMZ host.
+To help conserve power and reduce overall complexity, only a single firewall is used in this topology. In the rare event that this firewall should fail, I also maintain a spare (but less capable) router which can quickly be installed in its place to restore connectivity.
+
+SW04 is a tiny Unifi Flex Mini switch used only to provide switching for FW01 which does not have switching hardware. It is powered primarily by a USB port on FW01, with redundant power also provided via PoE from SW02.
+
+SW01 is configured as the primary spanning-tree root bridge and SW02 as the secondary. The dashed lines in the diagram represent links that will be blocked by spanning-tree when SW01 is root. This configuration was done to help protect the east-west traffic between servers by not traversing the link between SW01 and SW04 which aggregates internet-bound traffic.
+
+The end devices shown have also been strategically placed to help protect east-west traffic between the servers. For example, AP01 is connected via SW01 so that the mostly internet-bound traffic from wireless devices will not traverse the same links between the servers.
 
 ## WLAN
 
@@ -76,13 +80,10 @@ For both SSIDs, VLANs are dynamically assigned to clients using FreeRADIUS (curr
 
 ## Power
 
-Power to all equipment is provided by the following two UPSes.
+Power to all equipment is provided by a single UPS.
 
 |Qty.|Model|Volt-ampere|Watts|
 |----|-----|-----------|-----|
 |1|CyberPower CP1500PFCLCD|1500VA|1000W|
-|1|CyberPower OR700LCDRM1U|700VA|400W|
 
-To help prevent a single UPS failure from becoming a single point of failure, clustered and highly available components are always powered by different UPSes. However, since many clusters (including [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) and [Kubernetes](https://kubernetes.io)) require an odd number of nodes to maintain quorum, a single UPS failure might still be problematic depending on which UPS fails. Both UPSes are also plugged into the same electrical circuit so a breaker trip or other problem would cause power loss to both UPSes.
-
-These problems are currently accepted as compromises for using small form-factor, low-power, consumer hardware which often don't have redundant power supplies or NICs.
+While having redundant UPSes would be better, it would also increase complexity and maintenance costs for marinal gain. For example, [Kubernetes](https://kubernetes.io) with etcd requires an odd number of nodes to maintain quorum in the event of a node failure. Since the consumer hardware I use doesn't have redundant PSUs or NICs, a single UPS failure could still take down a majority of the nodes or switches depending on which UPS fails.
