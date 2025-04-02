@@ -80,10 +80,10 @@ For both SSIDs, VLANs are dynamically assigned to clients using FreeRADIUS (curr
 
 ## Power
 
-Power to all equipment is provided by the following two UPSes.
+Power to all equipment is provided by a single UPS.
 
 |Qty.|Model|Volt-ampere|Watts|
 |----|-----|-----------|-----|
 |1|CyberPower CP1500PFCLCD|1500VA|1000W|
 
-These problems are currently accepted as compromises for using small form-factor, low-power, consumer hardware which often don't have redundant power supplies or NICs.
+While having redundant UPSes would be better, it would also increase complexity and maintenance costs for marinal gain. For example, [Kubernetes](https://kubernetes.io) with etcd requires an odd number of nodes to maintain quorum in the event of a node failure. Since the consumer hardware I use doesn't have redundant PSUs or NICs, a single UPS failure could still take down a majority of the nodes or switches depending on which UPS fails.
