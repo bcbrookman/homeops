@@ -11,7 +11,7 @@ apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
 metadata:
   name: homer
-spec:
+spec::
   imageRepositoryRef:
     name: homer
   policy:
@@ -31,7 +31,12 @@ spec:
       author:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
-      messageTemplate: Bump {{ (index .Updated.Images 0).Repository }} to {{ (index .Updated.Images 0).Identifier }}
+      messageTemplate: |
+        {{ if .Updated.Images -}}
+          Bump {{ (index .Updated.Images 0).Repository }} to {{ (index .Updated.Images 0).Identifier }}
+        {{ else -}}
+          Unspecified change by {{ .AutomationObject }} ImageUpdateAutomation
+        {{ end -}}
     push:
       branch: fluxcdbot/updates/homer
   interval: 24h
