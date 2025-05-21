@@ -13,6 +13,10 @@ terraform {
     sops = {
       source = "carlpett/sops"
     }
+    talos = {
+      source  = "siderolabs/talos"
+      version = "0.9.0-alpha.0"
+    }
   }
 }
 
