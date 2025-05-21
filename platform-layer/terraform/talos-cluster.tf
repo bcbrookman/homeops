@@ -54,7 +54,7 @@ module "talos_vms" {
   name_prefix          = "talos-vm"
   net_cidr_prefix      = "192.168.20.0/24"
   net_gateway_addr     = "192.168.20.1"
-  net_starting_hostnum = 141
+  net_starting_hostnum = 151
   net_vlan             = 20
   disk_size            = "100G"
   iso                  = "nas:iso/${local.vm_iso_filename}"
@@ -116,7 +116,7 @@ module "talos_cluster" {
 
   nodes = [
     {
-      ip   = "192.168.20.141"
+      ip   = "192.168.20.151"
       type = "controlplane"
       patches = [
         local.patches.cluster,
@@ -124,7 +124,7 @@ module "talos_cluster" {
       ]
     },
     {
-      ip   = "192.168.20.142"
+      ip   = "192.168.20.152"
       type = "controlplane"
       patches = [
         local.patches.cluster,
@@ -132,7 +132,7 @@ module "talos_cluster" {
       ]
     },
     {
-      ip   = "192.168.20.143"
+      ip   = "192.168.20.153"
       type = "controlplane"
       patches = [
         local.patches.cluster,
