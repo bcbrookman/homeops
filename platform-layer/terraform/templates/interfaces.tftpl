@@ -1,0 +1,11 @@
+---
+machine:
+  network:
+    interfaces:
+      - deviceSelector:
+          physical: true
+        dhcp: false
+        %{~ if machine_type == "controlplane" ~}
+        vip:
+          ip: ${cluster_endpoint_vip}
+        %{~ endif ~}

@@ -54,7 +54,7 @@ module "talos_vms" {
   name_prefix          = "talos-vm"
   net_cidr_prefix      = "192.168.20.0/24"
   net_gateway_addr     = "192.168.20.1"
-  net_starting_hostnum = 151
+  net_starting_hostnum = 171
   net_vlan             = 20
   disk_size            = "100G"
   iso                  = "nas:iso/${local.vm_iso_filename}"
@@ -65,80 +65,69 @@ module "talos_vms" {
 # -------------------------------------------------------------------------------
 
 locals {
-  cluster_name         = "homeops"
-  cluster_endpoint_vip = "192.168.20.100"
-  patches = {
-    cluster = yamlencode({
-      cluster = {
-        allowSchedulingOnControlPlanes = true
-      }
-    })
-    controlplane = yamlencode({
-      machine = {
-        network = {
-          interfaces = [
-            {
-              vip = {
-                ip = local.cluster_endpoint_vip
-              }
-              deviceSelector = {
-                physical = true
-              }
-              dhcp = false
-            }
-          ]
-        }
-      }
-    })
-    worker = yamlencode({
-      machine = {
-        network = {
-          interfaces = [
-            {
-              deviceSelector = {
-                physical = true
-              }
-              dhcp = false
-            }
-          ]
-        }
-      }
-    })
-  }
+  cluster_name          = "homeops"
+  cluster_endpoint_vip  = "192.168.20.100"
+  cluster_endpoint_port = "6443"
+
+  cilium_cli_tag = "v0.18.3"
+
+  nodes = [
+    {
+      ip   = "192.168.20.171"
+      type = "controlplane"
+    },
+    {
+      ip   = "192.168.20.172"
+      type = "controlplane"
+    },
+    {
+      ip   = "192.168.20.173"
+      type = "controlplane"
+    },
+  ]
+
+  cluster_patch = templatefile("templates/cluster.tftpl", {
+    cilium_cli_tag       = local.cilium_cli_tag
+    local_apiserver_port = local.cluster_endpoint_port
+  })
 }
 
 module "talos_cluster" {
   depends_on = [module.talos_vms]
   source     = "./modules/talos-cluster"
 
-  cluster_name         = local.cluster_name
-  cluster_endpoint_vip = local.cluster_endpoint_vip
+  cluster_name          = local.cluster_name
+  cluster_endpoint_vip  = local.cluster_endpoint_vip
+  cluster_endpoint_port = local.cluster_endpoint_port
 
   nodes = [
-    {
-      ip   = "192.168.20.151"
-      type = "controlplane"
+    merge(local.nodes[0], {
       patches = [
-        local.patches.cluster,
-        local.patches.controlplane
+        local.cluster_patch,
+        templatefile("templates/interfaces.tftpl", {
+          cluster_endpoint_vip = local.cluster_endpoint_vip
+          machine_type         = local.nodes[0].type
+        })
       ]
-    },
-    {
-      ip   = "192.168.20.152"
-      type = "controlplane"
+    }),
+    merge(local.nodes[1], {
       patches = [
-        local.patches.cluster,
-        local.patches.controlplane
+        local.cluster_patch,
+        templatefile("templates/interfaces.tftpl", {
+          cluster_endpoint_vip = local.cluster_endpoint_vip
+          machine_type         = local.nodes[1].type
+        })
       ]
-    },
-    {
-      ip   = "192.168.20.153"
-      type = "controlplane"
+    }),
+    merge(local.nodes[2], {
       patches = [
-        local.patches.cluster,
-        local.patches.controlplane
+        local.cluster_patch,
+        templatefile("templates/interfaces.tftpl", {
+          cluster_endpoint_vip = local.cluster_endpoint_vip
+          machine_type         = local.nodes[2].type
+        })
       ]
-    },
+    }),
   ]
 }
 
