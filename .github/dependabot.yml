@@ -5,15 +5,30 @@
 ---
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/.requirements/"
+      interval: weekly
+    assignees:
+      - bcbrookman
+    commit-message:
+      prefix: build
+      include: scope
+  - package-ecosystem: pip
+    directory: /.requirements/
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "terraform"
-    directory: "/infrastructure-layer/terraform/"
+      interval: weekly
+    assignees:
+      - bcbrookman
+    commit-message:
+      prefix: chore
+      include: scope
+  - package-ecosystem: terraform
+    directory: /infrastructure-layer/terraform/
     schedule:
-      interval: "weekly"
+      interval: weekly
+    assignees:
+      - bcbrookman
+    commit-message:
+      prefix: chore
+      include: scope
