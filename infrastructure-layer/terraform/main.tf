@@ -8,7 +8,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.1-rc8"
+      version = "3.0.2-rc01"
     }
     sops = {
       source = "carlpett/sops"
