@@ -24,6 +24,7 @@ nav:
   - Infrastructure Layer: infrastructure-layer.md
   - Platform Layer: platform-layer.md
   - Software Layer: software-layer.md
+  - Naming Conventions: naming-conventions.md
 
 markdown_extensions:
   - attr_list

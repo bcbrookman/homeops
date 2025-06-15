@@ -8,12 +8,21 @@ terraform {
 
 locals {
   net_cidr_mask = split("/", var.net_cidr_prefix)[1]
+  node_ids = random_integer.node_id[*].result
+  padded_node_ids = [ for id in local.node_ids : format("%04d", id) ]
 }
 
-resource "proxmox_vm_qemu" "talos-vm" {
+resource "random_integer" "node_id" {
+  count = var.nodes
+  min   = 0
+  max   = 9999
+}
+
+resource "proxmox_vm_qemu" "talos_vm" {
   # vm_state = "stopped"
   count            = var.nodes
-  name             = "${var.name_prefix}0${count.index + 1}"
+  name             = "${var.name_prefix}-vm${local.padded_node_ids[count.index]}"
+  vmid             = local.node_ids[count.index]
   target_node      = "pve0${count.index % var.nodes + 1}"
   agent            = 1
   os_type          = "cloud-init"

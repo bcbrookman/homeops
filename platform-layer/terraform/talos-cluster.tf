@@ -51,7 +51,7 @@ output "vm_schematic_id" { value = local.vm_schematic_id }
 
 module "talos_vms" {
   source               = "./modules/talos-vms"
-  name_prefix          = "talos-vm"
+  name_prefix          = local.cluster_name
   net_cidr_prefix      = "192.168.20.0/24"
   net_gateway_addr     = "192.168.20.1"
   net_starting_hostnum = 171
@@ -65,7 +65,7 @@ module "talos_vms" {
 # -------------------------------------------------------------------------------
 
 locals {
-  cluster_name          = "homeops"
+  cluster_name          = "talos3203"
   cluster_endpoint_vip  = "192.168.20.100"
   cluster_endpoint_port = "6443"
 
@@ -139,20 +139,20 @@ module "talos_cluster" {
 # files when running `terraform apply` locally. They should remain commented out
 # normally, but can be uncommented temporarily when needed.
 
-# resource "local_file" "outputs_gitignore" {
-#   content         = "**/*"
-#   filename        = ".outputs/.gitignore"
-#   file_permission = "0644"
-# }
+resource "local_file" "outputs_gitignore" {
+  content         = "**/*"
+  filename        = ".outputs/.gitignore"
+  file_permission = "0644"
+}
 
-# resource "local_sensitive_file" "kubeconfig" {
-#   content         = module.talos_cluster.cluster_kubeconfig_raw
-#   filename        = ".outputs/${local.cluster_name}_kubeconfig"
-#   file_permission = "0600"
-# }
+resource "local_sensitive_file" "kubeconfig" {
+  content         = module.talos_cluster.cluster_kubeconfig_raw
+  filename        = ".outputs/${local.cluster_name}_kubeconfig"
+  file_permission = "0600"
+}
 
-# resource "local_sensitive_file" "talosconfig" {
-#   content         = module.talos_cluster.client_configuration_talosconfig
-#   filename        = ".outputs/${local.cluster_name}_talosconfig"
-#   file_permission = "0600"
-# }
+resource "local_sensitive_file" "talosconfig" {
+  content         = module.talos_cluster.client_configuration_talosconfig
+  filename        = ".outputs/${local.cluster_name}_talosconfig"
+  file_permission = "0600"
+}
