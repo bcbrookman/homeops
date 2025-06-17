@@ -2,10 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - ./namespaces.yaml
   - ../base/sources/
   - ./cert-manager/
   - ./longhorn/
   - ./metallb/
-  - ./namespaces.yaml
-  - ./nodes.yaml
   - ./traefik/
+  - ./nodes.yaml
