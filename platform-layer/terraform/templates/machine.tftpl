@@ -1,5 +1,7 @@
 ---
 machine:
+  install:
+    image: ${installer_image}
   network:
     interfaces:
       - deviceSelector:
@@ -9,3 +11,12 @@ machine:
         vip:
           ip: ${cluster_endpoint_vip}
         %{~ endif ~}
+  kubelet:
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw

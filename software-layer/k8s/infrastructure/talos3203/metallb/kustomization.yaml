@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: metallb-system
+resources:
+  - ../../base/metallb/
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: replace
+        path: /apiVersion
+        value: helm.toolkit.fluxcd.io/v2
+  - target:
+      kind: HelmRelease
+      name: metallb
+    patch: |-
+      - op: add
+        path: /spec/values
+        value: { speaker: { ignoreExcludeLB: true } }
+      - op: replace
+        path: /spec/chart/spec/version
+        value: "0.15.2"
+  - path: ./patches.yaml

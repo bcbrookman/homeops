@@ -14,9 +14,11 @@ tasks:
     desc: Lint all software-layer files
     cmds:
       - task: lint:yaml
-      - cat k8s/clusters/production/*.y*ml | $KUBECONFORM
+      - cat k8s/clusters/*/*.y*ml | $KUBECONFORM
       - $KUSTOMIZE build /k8s/infrastructure/production | $KUBECONFORM
       - $KUSTOMIZE build /k8s/apps/production | $KUBECONFORM
+      - $KUSTOMIZE build /k8s/infrastructure/talos3203 | $KUBECONFORM
+      - $KUSTOMIZE build /k8s/apps/talos3203 | $KUBECONFORM
     vars:
       WORKING_DIR:
         sh: pwd
