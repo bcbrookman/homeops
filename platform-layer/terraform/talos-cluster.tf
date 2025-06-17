@@ -3,13 +3,15 @@
 # -------------------------------------------------------------------------------
 
 locals {
-  factory_url     = "https://factory.talos.dev"
-  platform        = "nocloud"
-  arch            = "amd64"
-  version         = "v1.10.2"
-  vm_schematic_id = talos_image_factory_schematic.vm.id
-  vm_iso_url      = "${local.factory_url}/image/${local.vm_schematic_id}/${local.version}/${local.platform}-${local.arch}.iso"
-  vm_iso_filename = "talos-${local.version}-${local.platform}-${local.arch}.iso"
+  factory_domain     = "factory.talos.dev"
+  factory_url        = "https://${local.factory_domain}"
+  platform           = "nocloud"
+  arch               = "amd64"
+  version            = "v1.10.2"
+  vm_schematic_id    = talos_image_factory_schematic.vm.id
+  vm_iso_url         = "${local.factory_url}/image/${local.vm_schematic_id}/${local.version}/${local.platform}-${local.arch}.iso"
+  vm_iso_filename    = "talos-${local.version}-${local.platform}-${local.arch}.iso"
+  vm_installer_image = "${local.factory_domain}/${local.platform}-installer/${local.vm_schematic_id}:${local.version}"
 }
 
 data "talos_image_factory_extensions_versions" "vm" {
@@ -17,7 +19,7 @@ data "talos_image_factory_extensions_versions" "vm" {
   filters = {
     names = [
       "siderolabs/iscsi-tools",
-      "siderolabs/vm-guest-agent",
+      "siderolabs/qemu-guest-agent",
       "siderolabs/util-linux-tools"
     ]
   }
@@ -40,6 +42,7 @@ resource "talos_image_factory_schematic" "vm" {
 output "vm_iso_url" { value = local.vm_iso_url }
 output "vm_iso_filename" { value = local.vm_iso_filename }
 output "vm_schematic_id" { value = local.vm_schematic_id }
+output "vm_installer_image" { value = local.vm_installer_image }
 
 # -------------------------------------------------------------------------------
 # Talos VM Provisioning
@@ -104,27 +107,30 @@ module "talos_cluster" {
     merge(local.nodes[0], {
       patches = [
         local.cluster_patch,
-        templatefile("templates/interfaces.tftpl", {
+        templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[0].type
+          installer_image      = local.vm_installer_image
         })
       ]
     }),
     merge(local.nodes[1], {
       patches = [
         local.cluster_patch,
-        templatefile("templates/interfaces.tftpl", {
+        templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[1].type
+          installer_image      = local.vm_installer_image
         })
       ]
     }),
     merge(local.nodes[2], {
       patches = [
         local.cluster_patch,
-        templatefile("templates/interfaces.tftpl", {
+        templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[2].type
+          installer_image      = local.vm_installer_image
         })
       ]
     }),
