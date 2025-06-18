@@ -18,7 +18,9 @@ tasks:
       - $KUSTOMIZE build /k8s/infrastructure/production | $KUBECONFORM
       - $KUSTOMIZE build /k8s/apps/production | $KUBECONFORM
       - $KUSTOMIZE build /k8s/infrastructure/talos3203 | $KUBECONFORM
+      - $KUSTOMIZE build /k8s/infrastructure/talos3203/customresources | $KUBECONFORM
       - $KUSTOMIZE build /k8s/apps/talos3203 | $KUBECONFORM
+      - $KUSTOMIZE build /k8s/apps/talos3203/customresources | $KUBECONFORM
     vars:
       WORKING_DIR:
         sh: pwd

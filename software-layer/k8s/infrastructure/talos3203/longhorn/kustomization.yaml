@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: longhorn-system
 resources:
   - ../../base/longhorn/
-  - ./recurringjobs.yaml
 patches:
   - target:
       kind: HelmRelease
