@@ -21,4 +21,3 @@ patches:
       - op: replace
         path: /spec/chart/spec/version
         value: "0.15.2"
-  - path: ./patches.yaml

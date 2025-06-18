@@ -5,4 +5,3 @@ namespace: longhorn-system
 resources:
   - ./helmreleases.yaml
   - ./services.yaml
-  - ./backuptargets.yaml

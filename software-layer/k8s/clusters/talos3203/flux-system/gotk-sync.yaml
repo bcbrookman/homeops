@@ -8,7 +8,8 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/bcbrookman/homelab
+  url: https://github.com/bcbrookman/homeops
+
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
