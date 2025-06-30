@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: pihole
-  name: pihole
+    app: pi-hole
+  name: pi-hole
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: pihole
+      app: pi-hole
   template:
     metadata:
       labels:
-        app: pihole
+        app: pi-hole
     spec:
       affinity:
         podAntiAffinity:
@@ -22,7 +22,7 @@ spec:
                   - key: app
                     operator: In
                     values:
-                      - pihole
+                      - pi-hole
               topologyKey: kubernetes.io/hostname
       containers:
         - env:
@@ -30,7 +30,7 @@ spec:
               value: 192.168.20.1
             - name: DNSMASQ_LISTENING
               value: all
-          image: pihole/pihole:2025.06.2 # {"$imagepolicy": "flux-system:pi-hole"}
+          image: pihole/pihole:latest
           livenessProbe:
             failureThreshold: 6
             initialDelaySeconds: 10
@@ -38,7 +38,7 @@ spec:
             tcpSocket:
               port: 53
             timeoutSeconds: 1
-          name: pihole
+          name: pi-hole
           ports:
             - containerPort: 53
               protocol: UDP
@@ -59,7 +59,7 @@ spec:
               cpu: 46m
               memory: *memory
           securityContext:
-            allowPrivilegeEscalation: true
+            allowPrivilegeEscalation: false
             privileged: false
       dnsConfig:
         options:
