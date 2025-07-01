@@ -5,7 +5,7 @@ metadata:
     app: pi-hole
   name: pi-hole
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: pi-hole
@@ -26,9 +26,9 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
         - env:
-            - name: DNS1
-              value: 192.168.20.1
-            - name: DNSMASQ_LISTENING
+            - name: FTLCONF_dns_upstreams
+              value: 192.168.20.1;
+            - name: FTLCONF_dns_listeningMode
               value: all
           image: pihole/pihole:latest
           livenessProbe:
