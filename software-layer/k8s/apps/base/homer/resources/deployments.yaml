@@ -9,13 +9,23 @@ spec:
   selector:
     matchLabels:
       app: homer
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: homer
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - homer
+                topologyKey: kubernetes.io/hostname
       containers:
         - env:
             - name: PUID
@@ -24,7 +34,7 @@ spec:
               value: '1001'
             - name: TZ
               value: UTC
-          image: b4bz/homer:v24.12.1 # {"$imagepolicy": "flux-system:homer"}
+          image: b4bz/homer:latest
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -53,6 +63,9 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
+            capabilities:
+              drop:
+                - "ALL"
           volumeMounts:
             - mountPath: /www/assets
               name: homer-config
@@ -61,6 +74,7 @@ spec:
           - name: ndots
             value: '1'
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
       volumes:
