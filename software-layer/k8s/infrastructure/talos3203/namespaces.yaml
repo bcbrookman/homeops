@@ -29,3 +29,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: pi-hole
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homer

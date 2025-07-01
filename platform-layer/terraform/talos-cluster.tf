@@ -72,7 +72,8 @@ locals {
   cluster_endpoint_vip  = "192.168.20.100"
   cluster_endpoint_port = "6443"
 
-  cilium_cli_tag = "v0.18.3"
+  cilium_cli_tag           = "v0.18.3"
+  cilium_shared_ingress_ip = "192.168.20.231"
 
   nodes = [
     {
@@ -90,8 +91,9 @@ locals {
   ]
 
   cluster_patch = templatefile("templates/cluster.tftpl", {
-    cilium_cli_tag       = local.cilium_cli_tag
-    local_apiserver_port = local.cluster_endpoint_port
+    cilium_cli_tag           = local.cilium_cli_tag
+    local_apiserver_port     = local.cluster_endpoint_port
+    cilium_shared_ingress_ip = local.cilium_shared_ingress_ip
   })
 }
 
