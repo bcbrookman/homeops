@@ -7,7 +7,6 @@ resources:
   - ./homer/
   - ./kube-prometheus-stack/
   - ./mealie/
-  - ./pi-hole/
   - ./plex/
   - ./tautulli/
   - ./unifi/

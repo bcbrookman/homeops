@@ -3,24 +3,24 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    metallb.universe.tf/allow-shared-ip: pihole
+    metallb.universe.tf/allow-shared-ip: pi-hole
   labels:
-    app: pihole
-  name: pihole-tcp
+    app: pi-hole
+  name: pi-hole-tcp
 spec:
   externalTrafficPolicy: Local
   ports:
     - name: dnstcp
       port: 53
-      targetPort: 53
+      targetPort: 5353
     - name: http
       port: 80
-      targetPort: 80
+      targetPort: 8080
     - name: https
       port: 443
-      targetPort: 443
+      targetPort: 8443
   selector:
-    app: pihole
+    app: pi-hole
   type: LoadBalancer
 
 ---
@@ -28,17 +28,17 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    metallb.universe.tf/allow-shared-ip: pihole
+    metallb.universe.tf/allow-shared-ip: pi-hole
   labels:
-    app: pihole
-  name: pihole-udp
+    app: pi-hole
+  name: pi-hole-udp
 spec:
   externalTrafficPolicy: Local
   ports:
     - name: dns
       port: 53
       protocol: UDP
-      targetPort: 53
+      targetPort: 5353
   selector:
-    app: pihole
+    app: pi-hole
   type: LoadBalancer
