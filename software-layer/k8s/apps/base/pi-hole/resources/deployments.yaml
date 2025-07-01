@@ -5,7 +5,11 @@ metadata:
     app: pi-hole
   name: pi-hole
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
   selector:
     matchLabels:
       app: pi-hole
