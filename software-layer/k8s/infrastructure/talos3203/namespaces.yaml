@@ -2,6 +2,12 @@
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: homer
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: longhorn-system
   labels:
     pod-security.kubernetes.io/enforce: privileged
@@ -34,4 +40,4 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: homer
+  name: uptime-kuma

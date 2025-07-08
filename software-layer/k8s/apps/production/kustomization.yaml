@@ -4,10 +4,8 @@ kind: Kustomization
 resources:
   - ./github-arc/
   - ./home-assistant/
-  - ./homer/
   - ./kube-prometheus-stack/
   - ./mealie/
   - ./plex/
   - ./tautulli/
   - ./unifi/
-  - ./uptime-kuma/
