@@ -6,5 +6,4 @@ resources:
   - ./home-assistant/
   - ./kube-prometheus-stack/
   - ./plex/
-  - ./tautulli/
   - ./unifi/
