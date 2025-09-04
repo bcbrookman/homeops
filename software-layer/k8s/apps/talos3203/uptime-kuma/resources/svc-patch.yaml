@@ -4,4 +4,4 @@ kind: Service
 metadata:
   name: uptime-kuma
 spec:
-  loadBalancerIP: 192.168.20.216
+  loadBalancerIP: 192.168.20.236
