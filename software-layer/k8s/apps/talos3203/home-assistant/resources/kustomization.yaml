@@ -1,0 +1,10 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: home-assistant
+resources:
+  - ../../../base/home-assistant/resources/
+  - ./ingresses.yaml
+images:
+  - name: lscr.io/linuxserver/homeassistant
+    newTag: 2025.9.0 # {"$imagepolicy": "flux-system:home-assistant:tag"}
