@@ -24,7 +24,7 @@ spec:
               value: '1001'
             - name: TZ
               value: UTC
-          image: lscr.io/linuxserver/homeassistant:2025.9.0 # {"$imagepolicy": "flux-system:home-assistant"}
+          image: lscr.io/linuxserver/homeassistant:latest
           livenessProbe:
             failureThreshold: 6
             httpGet:
