@@ -10,3 +10,4 @@ resources:
   - ./plex/
   - ./tautulli/
   - ./uptime-kuma/
+  - ./unifi/
