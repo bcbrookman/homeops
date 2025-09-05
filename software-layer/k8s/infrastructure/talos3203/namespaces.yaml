@@ -46,4 +46,10 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: tautulli
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: uptime-kuma
