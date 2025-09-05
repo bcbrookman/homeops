@@ -4,6 +4,4 @@ kind: Kustomization
 resources:
   - ./github-arc/
   - ./home-assistant/
-  - ./kube-prometheus-stack/
-  - ./plex/
   - ./unifi/
