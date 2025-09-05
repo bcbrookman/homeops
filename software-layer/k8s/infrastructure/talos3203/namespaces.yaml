@@ -8,6 +8,12 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: kube-prometheus-stack
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: longhorn-system
   labels:
     pod-security.kubernetes.io/enforce: privileged
@@ -21,6 +27,12 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: mealie
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: metallb-system
   labels:
     pod-security.kubernetes.io/enforce: privileged
@@ -29,12 +41,6 @@ metadata:
     pod-security.kubernetes.io/audit-version: latest
     pod-security.kubernetes.io/warn: privileged
     pod-security.kubernetes.io/warn-version: latest
-
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: mealie
 
 ---
 apiVersion: v1

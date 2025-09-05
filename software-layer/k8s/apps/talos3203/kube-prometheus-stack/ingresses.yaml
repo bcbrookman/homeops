@@ -5,7 +5,7 @@ metadata:
   name: kube-prometheus
 spec:
   rules:
-    - host: grafana-prd.home.bcbrookman.com
+    - host: grafana.home.bcbrookman.com
       http:
         paths:
           - backend:
@@ -15,7 +15,7 @@ spec:
                   number: 80
             path: /
             pathType: Prefix
-    - host: prometheus-prd.home.bcbrookman.com
+    - host: prometheus.home.bcbrookman.com
       http:
         paths:
           - backend:
