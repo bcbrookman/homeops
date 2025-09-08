@@ -53,7 +53,6 @@ tasks:
       - reqs:ansible-collections
     cmds:
       - ansible-playbook -f 10 -i inventory/ playbooks/main.yaml
-      - ansible-playbook -f 1  -i inventory/ k3s-ansible/site.yml
     env:
       ANSIBLE_VARS_ENABLED: host_group_vars,community.sops.sops
       ANSIBLE_SOPS_AGE_KEY:
