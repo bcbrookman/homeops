@@ -10,6 +10,8 @@ spec:
         options:
           - name: ndots
             value: '1'
+        searches:
+          - home.bcbrookman.com
       repository: bcbrookman/homeops
 
 ---
