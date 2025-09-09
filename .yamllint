@@ -6,7 +6,6 @@ ignore: |
   **/duplicati/
   **/flux-system/gotk-*
   **/homelab-desk/
-  **/k3s-ansible/
   **/venv/
 
 rules:

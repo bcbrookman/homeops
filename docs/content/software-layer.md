@@ -23,11 +23,11 @@ All apps and services deployed in the Software Layer are currently deployed on K
 
 ### Networking
 
-The network plugin used in the cluster is the default [Flannel](https://github.com/flannel-io/flannel) included with [K3s](https://k3s.io). Besides not directly supporting network policies, it just works and I've never had to think about it much.
+The network plugin used in the cluster is [Cilium](https://cilium.io/).
 
-For load balancer services, K3s does include [ServiceLB](https://github.com/k3s-io/klipper-lb) (formerly Klipper). However, it works by using host ports and does not allow for stable load balancer IPs. It can work well for simple use-cases, but does not fit my needs. I disable it and deploy [MetalLB](https://github.com/k3s-io/klipper-lb) in L2 mode instead.
+While Cilium does offer an [LB IPAM](https://docs.cilium.io/en/stable/network/lb-ipam/) feature to support `loadBalancer` services, it doesn't currently support the `externalTrafficPolicy: Local` option in L2 Aware LB mode (see [limitations](https://docs.cilium.io/en/stable/network/l2-announcements/#limitations)). For that reason, I use [MetalLB](https://metallb.io) in L2 mode instead.
 
-For Ingress/Gateway API controller, I use [Traefik](https://traefik.io/traefik/) which is also included with K3s.
+I do, however, use the built-in Ingress features within Cilium.
 
 ### Persistent Storage
 

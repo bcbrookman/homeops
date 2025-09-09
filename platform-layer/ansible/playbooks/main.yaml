@@ -4,6 +4,3 @@
 
 - name: Apply base configurations
   ansible.builtin.import_playbook: config_all_servers_base.yaml
-
-- name: Apply more specific configurations
-  ansible.builtin.import_playbook: prep_k3s_servers.yaml

@@ -8,13 +8,13 @@ This layer provides the platforms which applications and services are deployed o
 
 ### Kubernetes
 
-[K3s](https://k3s.io) is currently the distribution used in my home infrastructure for its small footprint and simple deployment.
+[Talos](https://talos.dev) is my distribution of choice in for home infrastructure due to its minimal, hardened footprint, and low opoerational overhead.
 
-The K3s cluster is deployed on Debian virtual machines across each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. The virtual machines for the cluster are provisioned using [Terraform](https://www.terraform.io/), and K3s is then installed and configured using Ansible (see [Tooling](#tooling) below).
+The Talos cluster is deployed as virtual machines across each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. Both the VMs and Talos are installed and configured using [Terraform](https://www.terraform.io/) (see [Tooling](#tooling) below).
 
-The stable API endpoint IP address required for highly available K3s clusters is currently provided by a single [HAProxy](https://www.haproxy.org/) load balancer installed on the WAN [pfSense](https://www.pfsense.org/) firewall. This is only temporary during migration to a new cluster which will leverage a VIP feature instead.
+The stable API address required for highly available Talos clusters is provided by the VIP feature included with Talos.
 
-To avoid using more compute resources than necessary, each K3s node currently serves both K3s server (control plane) and K3s agent (worker) roles. However, this strategy may change in the future.
+To avoid using more compute resources than necessary, each Talos node currently serves both control plane and worker roles.
 
 ### PostgreSQL
 
@@ -37,22 +37,16 @@ The `-target` option can also be added to limit the scope of the `apply`. This c
 
 ```
 cd ./platform-layer/terraform
-terraform apply -target=-k3s-prod[0] -target=k3s-prod[1]
+terraform apply -target=talos_vm[0] -target=talos_vm[1]
 ```
 
 ### Ansible
 
 Much like the [Terraform](https://www.terraform.io/) files in this layer, [Ansible](https://www.ansible.com/) playbooks which apply base configurations are symlinked to the infrastructure layer.
 
-A main.yaml playbook is provided to upgrade installed packages and apply all base configurations. It can be used against staging environment hosts as follows.
+A main.yaml playbook is provided to upgrade installed packages and apply all base configurations. It can be used as follows.
 
 ```
 cd ./platform-layer/ansible/
 ansible-playbook -i inventory/ playbooks/main.yaml -K
-```
-
-To then configure a K3s cluster on the nodes, use the playbook provided by k3s-ansible.
-
-```
-ansible-playbook -i inventory/ k3s-ansible/site.yml -K
 ```

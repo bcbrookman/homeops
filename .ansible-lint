@@ -3,7 +3,6 @@ offline: true
 exclude_paths:
   - .cache/
   - .github/
-  - k3s-ansible/
 
 warn_list:
   - package-latest
