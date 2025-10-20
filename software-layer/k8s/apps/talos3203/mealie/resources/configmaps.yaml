@@ -5,6 +5,6 @@ metadata:
   name: mealie
 data:
   DB_ENGINE: postgres
-  POSTGRES_SERVER: pgsql.home.bcbrookman.com
+  POSTGRES_SERVER: mealie-db-rw
   POSTGRES_PORT: "5432"
   POSTGRES_DB: mealie
