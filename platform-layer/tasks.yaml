@@ -15,15 +15,6 @@ tasks:
     cmds:
       - task: lint:yaml
       - task: lint:terraform
-      - task: lint:ansible
-
-  lint:ansible:
-    dir: ./ansible/
-    deps:
-      - reqs:ansible-roles
-      - reqs:ansible-collections
-    cmds:
-      - ansible-lint
 
   lint:terraform:
     dir: ./terraform/
@@ -44,19 +35,6 @@ tasks:
     desc: Deploy the platform layer
     cmds:
       - task: deploy:terraform
-      - task: deploy:ansible
-
-  deploy:ansible:
-    dir: ./ansible/
-    deps:
-      - reqs:ansible-roles
-      - reqs:ansible-collections
-    cmds:
-      - ansible-playbook -f 10 -i inventory/ playbooks/main.yaml
-    env:
-      ANSIBLE_VARS_ENABLED: host_group_vars,community.sops.sops
-      ANSIBLE_SOPS_AGE_KEY:
-        sh: echo ${SOPS_AGE_KEY}
 
   deploy:terraform:
     dir: ./terraform/

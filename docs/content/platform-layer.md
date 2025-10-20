@@ -16,10 +16,6 @@ The stable API address required for highly available Talos clusters is provided 
 
 To avoid using more compute resources than necessary, each Talos node currently serves both control plane and worker roles.
 
-### PostgreSQL
-
-[PostgreSQL](https://www.postgresql.org/) is currently deployed on a single [LXC container]https://linuxcontainers.org/. In the future, this will be expanded with a replica on each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server and high-availability components.
-
 ## Tooling
 
 ### Terraform
@@ -38,15 +34,4 @@ The `-target` option can also be added to limit the scope of the `apply`. This c
 ```
 cd ./platform-layer/terraform
 terraform apply -target=talos_vm[0] -target=talos_vm[1]
-```
-
-### Ansible
-
-Much like the [Terraform](https://www.terraform.io/) files in this layer, [Ansible](https://www.ansible.com/) playbooks which apply base configurations are symlinked to the infrastructure layer.
-
-A main.yaml playbook is provided to upgrade installed packages and apply all base configurations. It can be used as follows.
-
-```
-cd ./platform-layer/ansible/
-ansible-playbook -i inventory/ playbooks/main.yaml -K
 ```
