@@ -29,11 +29,19 @@ While Cilium does offer an [LB IPAM](https://docs.cilium.io/en/stable/network/lb
 
 I do, however, use the built-in Ingress features within Cilium.
 
-### Persistent Storage
+### Storage
+
+#### Persistent Volumes
 
 [Longhorn](https://longhorn.io/) provides the bulk of the persistent storage used by containers. It provides replicated highly-available block storage and NFS volumes for my containers. It also automatically backs up volumes to my external [Synology NAS](https://www.synology.com/en-us/products/DS920+).
 
 In addition to Longhorn, a few NFS volumes are also mapped directly to my external Synology NAS. These volumes are for media and user files that require large capacity, or aren't directly related to the application's persistence.
+
+#### Databases
+
+Many self-hosted/homelab oriented apps aren't designed with Kubernetes in mind. They're intended for single instance deployments with a local SQLite database and no option for an external database. While this can make them simpler, it also makes them incompatible with the scaling and self-healing features of Kubernetes.
+
+For apps that do support using an external database, [CloudNativePG](https://cloudnative-pg.io/) is used to provide reliable, HA PostgreSQL clusters. It handles cluster creation, scaling, backups, and recovery, while keeping the deployments declarative and Kubernetes-native.
 
 ## Tooling
 

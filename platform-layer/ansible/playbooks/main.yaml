@@ -1,6 +1,0 @@
----
-- name: Upgrade system packages
-  ansible.builtin.import_playbook: upgrade_apt_packages.yaml
-
-- name: Apply base configurations
-  ansible.builtin.import_playbook: config_all_servers_base.yaml

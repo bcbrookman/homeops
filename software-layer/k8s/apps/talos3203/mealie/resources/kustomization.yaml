@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: mealie
 resources:
   - ../../../base/mealie/resources/
+  - ./clusters.yaml
   - ./ingresses.yaml
   - ./secrets.sops.yaml
 patches:
