@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: etherpad
+  name: etherpad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etherpad
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: etherpad
+    spec:
+      containers:
+        - name: etherpad
+          envFrom:
+            - configMapRef:
+                name: etherpad
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: etherpad-db-app
+                  key: host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: etherpad-db-app
+                  key: port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: etherpad-db-app
+                  key: dbname
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: etherpad-db-app
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: etherpad-db-app
+                  key: password
+          image: etherpad/etherpad:latest
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: 9001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          ports:
+            - containerPort: 9001
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 9001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            limits:
+              memory: &memory 500Mi
+            requests:
+              cpu: 300m
+              memory: *memory
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - mountPath: /opt/etherpad-lite/var
+              name: etherpad-var
+            - mountPath: /opt/etherpad-lite/src/plugin_packages
+              name: etherpad-plugins
+      dnsConfig:
+        options:
+          - name: ndots
+            value: '1'
+      securityContext:
+        runAsUser: 5001
+        runAsGroup: 5001
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: etherpad-var
+          persistentVolumeClaim:
+            claimName: etherpad-var
+        - name: etherpad-plugins
+          persistentVolumeClaim:
+            claimName: etherpad-plugins

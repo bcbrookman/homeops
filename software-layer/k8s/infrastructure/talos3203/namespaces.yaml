@@ -28,6 +28,12 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: etherpad
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: home-assistant
 
 ---

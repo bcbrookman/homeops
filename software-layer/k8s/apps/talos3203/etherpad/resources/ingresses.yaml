@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: etherpad
+  name: etherpad
+spec:
+  rules:
+    - host: etherpad.k8s.home.bcbrookman.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: etherpad
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+    - host: etherpad.bcbrookman.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: etherpad
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
