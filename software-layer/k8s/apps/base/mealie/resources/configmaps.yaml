@@ -4,9 +4,10 @@ kind: ConfigMap
 metadata:
   name: mealie
 data:
-  PUID: "1000"
-  PGID: "1000"
-  TZ: UTC
-  MAX_WORKERS: "1"
-  WEB_CONCURRENCY: "1"
   BASE_URL: https://mealie.bcbrookman.com
+  DB_ENGINE: postgres
+  MAX_WORKERS: "1"
+  PGID: "1000"
+  PUID: "1000"
+  TZ: UTC
+  WEB_CONCURRENCY: "1"
