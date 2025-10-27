@@ -5,23 +5,59 @@ metadata:
     app: mealie
   name: mealie
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: mealie
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: mealie
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - mealie
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: mealie
+          env:
+            - name: POSTGRES_SERVER
+              valueFrom:
+                secretKeyRef:
+                  key: host
+                  name: mealie-db-app
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: mealie-db-app
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  key: dbname
+                  name: mealie-db-app
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: mealie-db-app
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: mealie-db-app
           envFrom:
             - configMapRef:
-                name: mealie
-            - secretRef:
                 name: mealie
           image: ghcr.io/mealie-recipes/mealie:latest
           livenessProbe:
@@ -33,7 +69,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           ports:
-            - containerPort: 32400
+            - containerPort: 9000
           readinessProbe:
             failureThreshold: 3
             httpGet:
