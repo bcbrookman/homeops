@@ -1,0 +1,48 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: etherpad
+spec:
+  image: etherpad/etherpad
+  interval: 4h
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: etherpad
+spec:
+  imageRepositoryRef:
+    name: etherpad
+  policy:
+    semver:
+      range: '>=1.0.0 <1000.0.0'
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  name: etherpad
+spec:
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: |
+        {{ if .Updated.Images -}}
+          Bump {{ (index .Updated.Images 0).Repository }} to {{ (index .Updated.Images 0).Identifier }}
+        {{ else -}}
+          Unspecified change by {{ .AutomationObject }} ImageUpdateAutomation
+        {{ end -}}
+    push:
+      branch: fluxcdbot/updates/etherpad
+  interval: 24h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  update:
+    path: software-layer/k8s/apps/base/etherpad/
+    strategy: Setters

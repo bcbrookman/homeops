@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: etherpad
+resources:
+  - ../../../base/etherpad/resources/
+  - ./ingresses.yaml
+  - ./secrets.sops.yaml
+images:
+  - name: etherpad/etherpad
+    newTag: "2.4.2"  # {"$imagepolicy": "flux-system:etherpad:tag"}
+patches:
+  - target:
+      kind: Deployment
+      name: etherpad
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: etherpad-admin

@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: etherpad
+  name: etherpad-var
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: etherpad
+  name: etherpad-plugins
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
