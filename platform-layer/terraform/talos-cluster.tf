@@ -3,19 +3,19 @@
 # -------------------------------------------------------------------------------
 
 locals {
-  factory_domain     = "factory.talos.dev"
-  factory_url        = "https://${local.factory_domain}"
-  platform           = "nocloud"
-  arch               = "amd64"
-  version            = "v1.10.2"
-  vm_schematic_id    = talos_image_factory_schematic.vm.id
-  vm_iso_url         = "${local.factory_url}/image/${local.vm_schematic_id}/${local.version}/${local.platform}-${local.arch}.iso"
-  vm_iso_filename    = "talos-${local.version}-${local.platform}-${local.arch}.iso"
-  vm_installer_image = "${local.factory_domain}/${local.platform}-installer/${local.vm_schematic_id}:${local.version}"
+  factory_domain        = "factory.talos.dev"
+  factory_url           = "https://${local.factory_domain}"
+  platform              = "nocloud"
+  arch                  = "amd64"
+  talos_install_version = "1.11.3"
+  vm_installer_image    = "${local.factory_domain}/${local.platform}-installer/${local.vm_schematic_id}:v${local.talos_install_version}"
+  vm_iso_filename       = "talos-v${local.talos_install_version}-${local.platform}-${local.arch}.iso"
+  vm_iso_url            = "${local.factory_url}/image/${local.vm_schematic_id}/v${local.talos_install_version}/${local.platform}-${local.arch}.iso"
+  vm_schematic_id       = talos_image_factory_schematic.vm.id
 }
 
 data "talos_image_factory_extensions_versions" "vm" {
-  talos_version = local.version
+  talos_version = local.talos_install_version
   filters = {
     names = [
       "siderolabs/iscsi-tools",
@@ -72,6 +72,9 @@ locals {
   cluster_endpoint_vip  = "192.168.20.100"
   cluster_endpoint_port = "6443"
 
+  kubernetes_version   = "1.34.0"
+  talos_config_version = "1.10.2"
+
   cilium_cli_tag           = "v0.18.3"
   cilium_shared_ingress_ip = "192.168.20.231"
 
@@ -104,6 +107,8 @@ module "talos_cluster" {
   cluster_name          = local.cluster_name
   cluster_endpoint_vip  = local.cluster_endpoint_vip
   cluster_endpoint_port = local.cluster_endpoint_port
+  kubernetes_version    = local.kubernetes_version
+  talos_version         = local.talos_config_version
 
   nodes = [
     merge(local.nodes[0], {
@@ -147,20 +152,20 @@ module "talos_cluster" {
 # files when running `terraform apply` locally. They should remain commented out
 # normally, but can be uncommented temporarily when needed.
 
-resource "local_file" "outputs_gitignore" {
-  content         = "**/*"
-  filename        = ".outputs/.gitignore"
-  file_permission = "0644"
-}
+# resource "local_file" "outputs_gitignore" {
+#   content         = "**/*"
+#   filename        = ".outputs/.gitignore"
+#   file_permission = "0644"
+# }
 
-resource "local_sensitive_file" "kubeconfig" {
-  content         = module.talos_cluster.cluster_kubeconfig_raw
-  filename        = ".outputs/${local.cluster_name}_kubeconfig"
-  file_permission = "0600"
-}
+# resource "local_sensitive_file" "kubeconfig" {
+#   content         = module.talos_cluster.cluster_kubeconfig_raw
+#   filename        = ".outputs/${local.cluster_name}_kubeconfig"
+#   file_permission = "0600"
+# }
 
-resource "local_sensitive_file" "talosconfig" {
-  content         = module.talos_cluster.client_configuration_talosconfig
-  filename        = ".outputs/${local.cluster_name}_talosconfig"
-  file_permission = "0600"
-}
+# resource "local_sensitive_file" "talosconfig" {
+#   content         = module.talos_cluster.client_configuration_talosconfig
+#   filename        = ".outputs/${local.cluster_name}_talosconfig"
+#   file_permission = "0600"
+# }

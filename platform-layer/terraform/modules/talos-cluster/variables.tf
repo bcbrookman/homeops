@@ -11,10 +11,18 @@ variable "cluster_endpoint_port" {
   default = 6443
 }
 
+variable "kubernetes_version" {
+  type = string
+}
+
 variable "nodes" {
   type = list(object({
     ip      = string
     type    = string
     patches = list(string)
   }))
+}
+
+variable "talos_version" {
+  type = string
 }

@@ -25,8 +25,12 @@ nav:
   - Platform Layer: platform-layer.md
   - Software Layer: software-layer.md
   - Naming Conventions: naming-conventions.md
+  - Cluster Upgrades: cluster-upgrades.md
 
 markdown_extensions:
+  - admonition
   - attr_list
   - md_in_html
+  - pymdownx.details
   - pymdownx.snippets
+  - pymdownx.superfences

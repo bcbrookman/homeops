@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     talos = {
-      source  = "siderolabs/talos"
+      source = "siderolabs/talos"
     }
   }
 }
@@ -19,10 +19,10 @@ locals {
 resource "talos_machine_secrets" "this" {}
 
 data "talos_client_configuration" "this" {
-  cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.this.client_configuration
-  nodes                = local.all_node_ips
+  cluster_name         = var.cluster_name
   endpoints            = local.controlplane_node_ips
+  nodes                = local.all_node_ips
 }
 
 # -------------------------------------------------------------------------------
@@ -30,17 +30,21 @@ data "talos_client_configuration" "this" {
 # -------------------------------------------------------------------------------
 
 data "talos_machine_configuration" "controlplane" {
-  machine_secrets  = talos_machine_secrets.this.machine_secrets
-  machine_type     = "controlplane"
-  cluster_name     = var.cluster_name
-  cluster_endpoint = "https://${var.cluster_endpoint_vip}:${var.cluster_endpoint_port}"
+  machine_secrets    = talos_machine_secrets.this.machine_secrets
+  machine_type       = "controlplane"
+  cluster_name       = var.cluster_name
+  cluster_endpoint   = "https://${var.cluster_endpoint_vip}:${var.cluster_endpoint_port}"
+  kubernetes_version = var.kubernetes_version
+  talos_version      = var.talos_version
 }
 
 data "talos_machine_configuration" "worker" {
-  machine_secrets  = talos_machine_secrets.this.machine_secrets
-  machine_type     = "worker"
-  cluster_name     = var.cluster_name
-  cluster_endpoint = "https://${var.cluster_endpoint_vip}:${var.cluster_endpoint_port}"
+  machine_secrets    = talos_machine_secrets.this.machine_secrets
+  machine_type       = "worker"
+  cluster_name       = var.cluster_name
+  cluster_endpoint   = "https://${var.cluster_endpoint_vip}:${var.cluster_endpoint_port}"
+  kubernetes_version = var.kubernetes_version
+  talos_version      = var.talos_version
 }
 
 resource "talos_machine_configuration_apply" "controlplane" {

@@ -7,9 +7,9 @@ terraform {
 }
 
 locals {
-  net_cidr_mask = split("/", var.net_cidr_prefix)[1]
-  node_ids = random_integer.node_id[*].result
-  padded_node_ids = [ for id in local.node_ids : format("%04d", id) ]
+  net_cidr_mask   = split("/", var.net_cidr_prefix)[1]
+  node_ids        = random_integer.node_id[*].result
+  padded_node_ids = [for id in local.node_ids : format("%04d", id)]
 }
 
 resource "random_integer" "node_id" {
@@ -19,7 +19,6 @@ resource "random_integer" "node_id" {
 }
 
 resource "proxmox_vm_qemu" "talos_vm" {
-  # vm_state = "stopped"
   count            = var.nodes
   name             = "${var.name_prefix}-vm${local.padded_node_ids[count.index]}"
   vmid             = local.node_ids[count.index]
