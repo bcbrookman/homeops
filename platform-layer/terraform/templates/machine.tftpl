@@ -2,14 +2,29 @@
 machine:
   install:
     image: ${installer_image}
+    %{~ if install_disk != "" ~}
+    disk: "${install_disk}"
+    %{~ endif ~}
   network:
+    %{~ if hostname != "" ~}
+    hostname: "${hostname}"
+    %{~ endif ~}
     interfaces:
       - deviceSelector:
           physical: true
         dhcp: false
+        %{~ if net_addr != "" && net_prefix != "" ~}
+        addresses:
+          - "${net_addr}${net_prefix}"
+        %{~ endif ~}
+        %{~ if net_gateway != "" ~}
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "${net_gateway}"
+        %{~ endif ~}
         %{~ if machine_type == "controlplane" ~}
         vip:
-          ip: ${cluster_endpoint_vip}
+          ip: "${cluster_endpoint_vip}"
         %{~ endif ~}
   kubelet:
     extraMounts:
