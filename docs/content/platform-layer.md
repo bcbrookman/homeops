@@ -10,7 +10,7 @@ This layer provides the platforms which applications and services are deployed o
 
 [Talos](https://talos.dev) is my distribution of choice in for home infrastructure due to its minimal, hardened footprint, and low opoerational overhead.
 
-The Talos cluster is deployed as virtual machines across each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. Both the VMs and Talos are installed and configured using [Terraform](https://www.terraform.io/) (see [Tooling](#tooling) below).
+The Talos cluster is deployed on bare-metal and as virtual machines on each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. Both the VMs and Talos are installed and configured using [Terraform](https://www.terraform.io/) (see [Tooling](#tooling) below).
 
 The stable API address required for highly available Talos clusters is provided by the VIP feature included with Talos.
 

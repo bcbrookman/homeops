@@ -5,12 +5,18 @@
 locals {
   factory_domain        = "factory.talos.dev"
   factory_url           = "https://${local.factory_domain}"
-  platform              = "nocloud"
-  arch                  = "amd64"
   talos_install_version = "1.11.3"
-  vm_installer_image    = "${local.factory_domain}/${local.platform}-installer/${local.vm_schematic_id}:v${local.talos_install_version}"
-  vm_iso_filename       = "talos-v${local.talos_install_version}-${local.platform}-${local.arch}.iso"
-  vm_iso_url            = "${local.factory_url}/image/${local.vm_schematic_id}/v${local.talos_install_version}/${local.platform}-${local.arch}.iso"
+  bm_platform           = "metal"
+  bm_arch               = "amd64"
+  bm_installer_image    = "${local.factory_domain}/${local.bm_platform}-installer/${local.bm_schematic_id}:v${local.talos_install_version}"
+  bm_iso_filename       = "talos-v${local.talos_install_version}-${local.bm_platform}-${local.bm_arch}.iso"
+  bm_iso_url            = "${local.factory_url}/image/${local.bm_schematic_id}/v${local.talos_install_version}/${local.bm_platform}-${local.bm_arch}.iso"
+  bm_schematic_id       = talos_image_factory_schematic.bm.id
+  vm_platform           = "nocloud"
+  vm_arch               = "amd64"
+  vm_installer_image    = "${local.factory_domain}/${local.vm_platform}-installer/${local.vm_schematic_id}:v${local.talos_install_version}"
+  vm_iso_filename       = "talos-v${local.talos_install_version}-${local.vm_platform}-${local.vm_arch}.iso"
+  vm_iso_url            = "${local.factory_url}/image/${local.vm_schematic_id}/v${local.talos_install_version}/${local.vm_platform}-${local.vm_arch}.iso"
   vm_schematic_id       = talos_image_factory_schematic.vm.id
 }
 
@@ -35,14 +41,43 @@ resource "talos_image_factory_schematic" "vm" {
   })
 }
 
+data "talos_image_factory_extensions_versions" "bm" {
+  talos_version = local.talos_install_version
+  filters = {
+    names = [
+      "siderolabs/i915",
+      "siderolabs/intel-ice-firmware",
+      "siderolabs/intel-ucode",
+      "siderolabs/iscsi-tools",
+      "siderolabs/util-linux-tools",
+    ]
+  }
+}
+
+resource "talos_image_factory_schematic" "bm" {
+  schematic = yamlencode({
+    customization = {
+      systemExtensions = {
+        officialExtensions = data.talos_image_factory_extensions_versions.bm.extensions_info.*.name
+      }
+    }
+  })
+}
+
 # Output the ISO url(s) and filename(s) so they can be downloaded manually.
 # Unfortunately, they cannot be downloaded automatically using the currently
 # configured providers.
 
+output "bm_iso_url" { value = local.bm_iso_url }
+output "bm_iso_filename" { value = local.bm_iso_filename }
+output "bm_schematic_id" { value = local.bm_schematic_id }
+output "bm_installer_image" { value = local.bm_installer_image }
+output "bm_iso_download_cmd" { value = "wget -O ${local.bm_iso_filename} ${local.bm_iso_url}" }
 output "vm_iso_url" { value = local.vm_iso_url }
 output "vm_iso_filename" { value = local.vm_iso_filename }
 output "vm_schematic_id" { value = local.vm_schematic_id }
 output "vm_installer_image" { value = local.vm_installer_image }
+output "vm_iso_download_cmd" { value = "wget -O ${local.vm_iso_filename} ${local.vm_iso_url}" }
 
 # -------------------------------------------------------------------------------
 # Talos VM Provisioning
@@ -55,6 +90,7 @@ output "vm_installer_image" { value = local.vm_installer_image }
 module "talos_vms" {
   source               = "./modules/talos-vms"
   name_prefix          = local.cluster_name
+  nodes                = 2
   net_cidr_prefix      = "192.168.20.0/24"
   net_gateway_addr     = "192.168.20.1"
   net_starting_hostnum = 171
@@ -77,6 +113,9 @@ locals {
 
   cilium_cli_tag           = "v0.18.3"
   cilium_shared_ingress_ip = "192.168.20.231"
+
+  common_net_prefix  = "/24"
+  common_net_gateway = "192.168.20.1"
 
   nodes = [
     {
@@ -117,6 +156,11 @@ module "talos_cluster" {
         templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[0].type
+          hostname             = ""
+          install_disk         = ""
+          net_addr             = ""
+          net_prefix           = ""
+          net_gateway          = ""
           installer_image      = local.vm_installer_image
         })
       ]
@@ -127,6 +171,11 @@ module "talos_cluster" {
         templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[1].type
+          hostname             = ""
+          install_disk         = ""
+          net_addr             = ""
+          net_prefix           = ""
+          net_gateway          = ""
           installer_image      = local.vm_installer_image
         })
       ]
@@ -137,7 +186,12 @@ module "talos_cluster" {
         templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[2].type
-          installer_image      = local.vm_installer_image
+          hostname             = "${local.cluster_name}-bm03"
+          install_disk         = "/dev/sdb"
+          net_addr             = local.nodes[2].ip
+          net_prefix           = local.common_net_prefix
+          net_gateway          = local.common_net_gateway
+          installer_image      = local.bm_installer_image
         })
       ]
     }),
