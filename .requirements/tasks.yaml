@@ -40,6 +40,14 @@ tasks:
     vars:
       REQS_FILE: ./mkdocs.requirements.txt
 
+  openssh-client:
+    desc: Install OpenSSH client
+    cmds:
+      - sudo apt update -y || apt update -y
+      - sudo apt install -y openssh-client || apt install -y openssh-client
+    status:
+      - ssh -V 2>&1 | grep OpenSSH
+
   yamllint:
     desc: Install yamllint
     cmds:

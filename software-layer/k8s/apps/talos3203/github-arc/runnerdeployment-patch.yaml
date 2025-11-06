@@ -1,0 +1,9 @@
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: homeops-actions-runner
+spec:
+  template:
+    spec:
+      image: summerwind/actions-runner:ubuntu-24.04
