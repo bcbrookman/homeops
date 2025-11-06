@@ -26,6 +26,7 @@ tasks:
   lint:ansible:
     dir: ./ansible/
     deps:
+      - reqs:openssh-client
       - reqs:ansible-roles
       - reqs:ansible-collections
     cmds:
@@ -40,6 +41,7 @@ tasks:
   deploy:ansible:
     dir: ./ansible/
     deps:
+      - reqs:openssh-client
       - reqs:ansible-roles
       - reqs:ansible-collections
     cmds:
