@@ -5,7 +5,7 @@ pfsense_firewalls:
     pfsense01:
 proxmox_servers:
   hosts:
-    pve[01:02]:
+    pve01:
 unifi_aps:
   hosts:
     ubnt-ap[01:02]:
