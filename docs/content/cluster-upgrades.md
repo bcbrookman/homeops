@@ -105,9 +105,9 @@ Should the need arise to remove a node from a Talos cluster, the following steps
         Since your talosconfig still contains the removed node, expect a connection error for the `talosctl` commands. However, the output from the other nodes should no longer include the removed node.
 
 1. Install/provision the replacement Talos node.
-1. Delete the removed node's `talos_machine_configuration_apply` apply from Terraform state.
+1. Delete the removed node's `talos_machine_configuration_apply` from Terraform state.
 
-     This is required because the resource only applies machine configurations. Terraform state; it does not compare the defined configs with the current configs.
+    This is required because the resource only applies machine configurations. Terraform state; it does not compare the defined configs with the current configs.
 
     ```shell
     cd platform-layer/terraform/

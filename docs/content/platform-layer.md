@@ -10,28 +10,8 @@ This layer provides the platforms which applications and services are deployed o
 
 [Talos](https://talos.dev) is my distribution of choice in for home infrastructure due to its minimal, hardened footprint, and low opoerational overhead.
 
-The Talos cluster is deployed on bare-metal and as virtual machines on each physical [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) server. Both the VMs and Talos are installed and configured using [Terraform](https://www.terraform.io/) (see [Tooling](#tooling) below).
+The Talos cluster is deployed on bare-metal small form factor machines. Talos is bootstrapped and configured using [Terraform](https://www.terraform.io/).
 
 The stable API address required for highly available Talos clusters is provided by the VIP feature included with Talos.
 
 To avoid using more compute resources than necessary, each Talos node currently serves both control plane and worker roles.
-
-## Tooling
-
-### Terraform
-
-As with the infrastructure layer, virtual machines are initially provisioned on [Proxmox VE](https://www.proxmox.com/en/proxmox-virtual-environment/overview) using [Terraform](https://www.terraform.io/). The base Terraform configuration files are symlinked to the infrastructure layer.
-
-VMs can be provisioned using `terraform apply`.
-
-```
-cd ./platform-layer/terraform
-terraform apply
-```
-
-The `-target` option can also be added to limit the scope of the `apply`. This can be useful when needing to apply changes to a subset of resource at a time. For example, when changing K8s nodes.
-
-```
-cd ./platform-layer/terraform
-terraform apply -target=talos_vm[0] -target=talos_vm[1]
-```
