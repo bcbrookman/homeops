@@ -10,12 +10,11 @@ Compute resources are provided using the following hardware:
 
 |Qty.|Model|CPU|Memory|Storage|Usage|
 |----|-----|---|------|-------|-----|
-|3|Lenovo ThinkCentre M910q|Intel i7-7700T|32GB|512GB|Proxmox VE|
-|1|Lenovo ThinkCentre M910q|Intel i7-7700T|32GB|512GB|Talos|
+|3|Lenovo ThinkCentre M910q|Intel i7-7700T|32GB|512GB|K8s (Talos)|
 
 ## Storage
 
-All bare-metal and VM workloads run off directly attached disks. For other bulk data storage needs, a [Synology DiskStation DS920+](https://www.synology.com/en-us/products/DS920+) NAS is used. Currently the following disks are installed in a Synology Hybrid Raid (SHR) array, providing about [12TB of available storage](https://www.synology.com/en-us/support/RAID_calculator?hdds=6%20TB|6%20TB|3%20TB|3%20TB).
+All compute workloads boot and run from their directly attached disks. For bulk data storage needs, a [Synology DiskStation DS920+](https://www.synology.com/en-us/products/DS920+) NAS is available. Currently the following disks are installed in a Synology Hybrid Raid (SHR) array, providing about [12TB of available storage](https://www.synology.com/en-us/support/RAID_calculator?hdds=6%20TB|6%20TB|3%20TB|3%20TB).
 
 |Qty.|Series|Model #|Interface|Capacity|
 |----|------|-------|---------|--------|

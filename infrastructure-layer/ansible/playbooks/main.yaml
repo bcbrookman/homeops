@@ -10,6 +10,3 @@
 
 - name: Apply base server configurations
   ansible.builtin.import_playbook: config_all_servers_base.yaml
-
-- name: Apply proxmox specific server configurations
-  ansible.builtin.import_playbook: config_proxmox_servers.yaml

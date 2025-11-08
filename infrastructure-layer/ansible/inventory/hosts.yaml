@@ -3,9 +3,6 @@
 pfsense_firewalls:
   hosts:
     pfsense01:
-proxmox_servers:
-  hosts:
-    pve01:
 unifi_aps:
   hosts:
     ubnt-ap[01:02]:
@@ -16,7 +13,6 @@ unifi_switches:
 # Groups of groups
 all_servers:
   children:
-    proxmox_servers:
 unifi_gear:
   children:
     unifi_switches:
