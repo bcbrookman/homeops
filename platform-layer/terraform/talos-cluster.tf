@@ -90,7 +90,7 @@ output "vm_iso_download_cmd" { value = "wget -O ${local.vm_iso_filename} ${local
 module "talos_vms" {
   source               = "./modules/talos-vms"
   name_prefix          = local.cluster_name
-  nodes                = 2
+  nodes                = 1
   net_cidr_prefix      = "192.168.20.0/24"
   net_gateway_addr     = "192.168.20.1"
   net_starting_hostnum = 171
@@ -149,6 +149,7 @@ module "talos_cluster" {
   kubernetes_version    = local.kubernetes_version
   talos_version         = local.talos_config_version
 
+
   nodes = [
     merge(local.nodes[0], {
       patches = [
@@ -171,12 +172,12 @@ module "talos_cluster" {
         templatefile("templates/machine.tftpl", {
           cluster_endpoint_vip = local.cluster_endpoint_vip
           machine_type         = local.nodes[1].type
-          hostname             = ""
-          install_disk         = ""
-          net_addr             = ""
-          net_prefix           = ""
-          net_gateway          = ""
-          installer_image      = local.vm_installer_image
+          hostname             = "${local.cluster_name}-bm02"
+          install_disk         = "/dev/sdb"
+          net_addr             = local.nodes[1].ip
+          net_prefix           = local.common_net_prefix
+          net_gateway          = local.common_net_gateway
+          installer_image      = local.bm_installer_image
         })
       ]
     }),
