@@ -8,4 +8,4 @@ resources:
   - ../../../base/uptime-kuma/resources/
 images:
   - name: louislam/uptime-kuma
-    newTag: 1.23.16-alpine # {"$imagepolicy": "flux-system:uptime-kuma:tag"}
+    newTag: 1.23.16-alpine  # {"$imagepolicy": "flux-system:uptime-kuma:tag"}

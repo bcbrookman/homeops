@@ -9,4 +9,4 @@ resources:
   - ../../../base/unifi/resources/
 images:
   - name: lscr.io/linuxserver/unifi-controller
-    newTag: 8.0.24 # {"$imagepolicy": "flux-system:unifi:tag"}
+    newTag: 8.0.24  # {"$imagepolicy": "flux-system:unifi:tag"}

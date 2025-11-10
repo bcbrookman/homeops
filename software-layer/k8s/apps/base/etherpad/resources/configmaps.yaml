@@ -9,15 +9,16 @@ data:
   DEFAULT_PAD_TEXT: >
     Welcome to Etherpad!
 
-    Changes to this pad are saved and synced in real time.
-    Anyone with its link can view all content and history, so never share sensitive details such as passwords.
-    Pads which are inactive over 30 days will be automatically cleared and/or deleted.
-    Backups are never taken, so be sure to export anything you'd like to keep.
+    Changes to this pad are saved and synced in real time. Anyone with its link can view all content
+    and history, so never share sensitive details such as passwords. Pads which are inactive over 30
+    days will be automatically cleared and/or deleted. Backups are never taken, so be sure to export
+    anything you'd like to keep.
   DISABLE_IP_LOGGING: "true"
   EP__ep_delete_after_delay__delay: "2592300"
   EP__ep_delete_after_delay__deleteAtStart: "true"
   EP__ep_delete_after_delay__loop: "true"
   EP__ep_delete_after_delay__loopDelay: "86400"
-  EP__ep_delete_after_delay__text: "The contents of this pad has been deleted since there were no edits for more than 30 days."
+  EP__ep_delete_after_delay__text: The contents of this pad has been deleted since there were no
+    edits for more than 30 days.
   NODE_ENV: production
   TRUST_PROXY: "true"
