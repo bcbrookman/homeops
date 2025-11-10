@@ -31,11 +31,12 @@ spec:
       author:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
-      messageTemplate: |
+      messageTemplate: >
         {{ if .Updated.Images -}}
-          Bump {{ (index .Updated.Images 0).Repository }} to {{ (index .Updated.Images 0).Identifier }}
+        chore(swl): update {{ (index .Updated.Images 0).Repository }}
+        to {{ (index .Updated.Images 0).Identifier }}
         {{ else -}}
-          Unspecified change by {{ .AutomationObject }} ImageUpdateAutomation
+        chore(swl): unspecified update by {{ .AutomationObject }} ImageUpdateAutomation
         {{ end -}}
     push:
       branch: fluxcdbot/updates/mealie

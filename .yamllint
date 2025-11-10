@@ -9,7 +9,15 @@ ignore: |
   **/venv/
 
 rules:
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 2
+    level: error
+  document-start:
+    present: true
+    level: error
   line-length:
     max: 100
     allow-non-breakable-inline-mappings: true
-    level: warning
+    level: error

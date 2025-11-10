@@ -115,7 +115,8 @@ tasks:
       - docker exec homeops-cicd add-apt-repository -y ppa:deadsnakes/ppa
       - docker exec homeops-cicd apt install -y python3.12
       - docker exec homeops-cicd ln -sf /usr/bin/python3.12 /usr/bin/python3
-      - docker exec homeops-cicd curl -L https://bootstrap.pypa.io/get-pip.py --output /tmp/get-pip.py
+      - docker exec homeops-cicd curl -L https://bootstrap.pypa.io/get-pip.py
+        --output /tmp/get-pip.py
       - docker exec homeops-cicd python3 /tmp/get-pip.py --break-system-packages
       - docker exec homeops-cicd pip3 config set global.break-system-packages true
     status:
@@ -132,7 +133,7 @@ tasks:
   docker-test:setup-sops:
     cmds:
       - docker exec homeops-cicd
-       curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.amd64
+        curl -L https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.amd64
         --output /tmp/sops
       - docker exec homeops-cicd mv /tmp/sops /usr/local/bin/
       - docker exec homeops-cicd chmod +x /usr/local/bin/sops
@@ -141,18 +142,20 @@ tasks:
 
   docker-test:setup-terraform:
     cmds:
-      - docker exec homeops-cicd
-        curl -L https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_amd64.zip
-        --output /tmp/terraform.zip
+      - docker exec homeops-cicd curl -L
+        https://releases.hashicorp.com/terraform/1.4.4/terraform_1.4.4_linux_amd64.zip --output
+        /tmp/terraform.zip
       - docker exec homeops-cicd unzip -o /tmp/terraform.zip -d /tmp/terraform/
       - docker exec homeops-cicd mv /tmp/terraform/terraform /usr/local/bin/
       - docker exec homeops-cicd bash -c 'mkdir -p ~/.terraform.d/'
-      - docker exec homeops-cicd bash -c 'echo {{.TF_CREDENTIALS_JSON}} > ~/.terraform.d/credentials.tfrc.json'
+      - docker exec homeops-cicd bash -c 'echo {{.TF_CREDENTIALS_JSON}} >
+        ~/.terraform.d/credentials.tfrc.json'
     status:
       - docker exec homeops-cicd terraform -version | grep v1.4.4
       - docker exec homeops-cicd bash -c 'test -f ~/.terraform.d/credentials.tfrc.json'
     vars:
-      TF_CREDENTIALS_JSON: '{\"credentials\": {\"app.terraform.io\": {\"token\": \"${TF_API_TOKEN}\"}}}'
+      TF_CREDENTIALS_JSON:
+        '{\"credentials\": {\"app.terraform.io\": {\"token\": \"${TF_API_TOKEN}\"}}}'
 
   docker-test:start-dind:
     cmds:

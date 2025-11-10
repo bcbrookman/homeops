@@ -9,4 +9,4 @@ patches:
   - path: ./svc-udp-patch.yaml
 images:
   - name: pihole/pihole
-    newTag: 2025.06.2 # {"$imagepolicy": "flux-system:pi-hole:tag"}
+    newTag: 2025.06.2  # {"$imagepolicy": "flux-system:pi-hole:tag"}

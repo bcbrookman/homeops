@@ -7,4 +7,4 @@ resources:
   - ./ingresses.yaml
 images:
   - name: lscr.io/linuxserver/homeassistant
-    newTag: 2025.9.0 # {"$imagepolicy": "flux-system:home-assistant:tag"}
+    newTag: 2025.9.0  # {"$imagepolicy": "flux-system:home-assistant:tag"}
