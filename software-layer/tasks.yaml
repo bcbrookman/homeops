@@ -31,7 +31,7 @@ tasks:
         -schema-location
         https://raw.githubusercontent.com/kubernetes/kubernetes/master/api/openapi-spec/v3/apis__{{`{{.Group}}`}}__{{`{{.ResourceAPIVersion}}`}}_openapi.json
         -schema-location
-        https://raw.githubusercontent.com/bcbrookman/CRDs-catalog/main/{{`{{.Group}}`}}/{{`{{.ResourceKind}}`}}_{{`{{.ResourceAPIVersion}}`}}.json
+        https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{`{{.Group}}`}}/{{`{{.ResourceKind}}`}}_{{`{{.ResourceAPIVersion}}`}}.json
 
   lint:yaml:
     deps:
