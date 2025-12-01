@@ -21,7 +21,7 @@ env:
 
 jobs:
   deploy-all-layers:
-    runs-on: [self-hosted, linux]
+    runs-on: homeops-arc-runners
 
     steps:
       - name: Checkout the repo at current context
