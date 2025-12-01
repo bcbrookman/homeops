@@ -13,7 +13,7 @@ on:  # yamllint disable-line rule:truthy
 
 jobs:
   lint:
-    runs-on: [self-hosted, linux]
+    runs-on: homeops-arc-runners
 
     steps:
       - name: Checkout the repo at current context

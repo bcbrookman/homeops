@@ -1,0 +1,8 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: github-arc-runners
+resources:
+  - ./helmreleases.yaml
+  - ./ocirepositories.yaml
+  - ./secrets.sops.yaml

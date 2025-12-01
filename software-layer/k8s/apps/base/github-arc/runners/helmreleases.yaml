@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gha-runner-scale-set
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: gha-runner-scale-set
+  interval: 24h
+  values:
+    githubConfigUrl: https://github.com/bcbrookman/homeops
+    githubConfigSecret: homeops-arc-app
+    runnerScaleSetName: homeops-arc-runners
