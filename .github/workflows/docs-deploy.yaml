@@ -33,16 +33,6 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Setup Task
-        uses: arduino/setup-task@v2
-        with:
-          version: '3.19.0'
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-
       - name: Build docs
         run: task docs:build
 

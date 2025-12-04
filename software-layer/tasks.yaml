@@ -15,17 +15,16 @@ tasks:
     cmds:
       - task: lint:yaml
       - cat k8s/clusters/*/*.y*ml | $KUBECONFORM
-      - $KUSTOMIZE build /k8s/infrastructure/talos3203 | $KUBECONFORM
-      - $KUSTOMIZE build /k8s/infrastructure/talos3203/customresources | $KUBECONFORM
-      - $KUSTOMIZE build /k8s/apps/talos3203 | $KUBECONFORM
-      - $KUSTOMIZE build /k8s/apps/talos3203/customresources | $KUBECONFORM
+      - kustomize build {{.WORKING_DIR}}/k8s/infrastructure/talos3203 | $KUBECONFORM
+      - kustomize build {{.WORKING_DIR}}/k8s/infrastructure/talos3203/customresources | $KUBECONFORM
+      - kustomize build {{.WORKING_DIR}}/k8s/apps/talos3203 | $KUBECONFORM
+      - kustomize build {{.WORKING_DIR}}/k8s/apps/talos3203/customresources | $KUBECONFORM
     vars:
       WORKING_DIR:
         sh: pwd
     env:
-      KUSTOMIZE: docker run --rm -v {{.WORKING_DIR}}/k8s:/k8s k8s.gcr.io/kustomize/kustomize:v4.5.7
       KUBECONFORM: >
-        docker run -i --rm ghcr.io/yannh/kubeconform:latest-alpine
+        kubeconform
         -summary
         -schema-location default
         -schema-location

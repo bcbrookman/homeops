@@ -3,15 +3,29 @@ version: '3'
 
 run: once
 
+env:
+  PIP_OPTS: "--no-input --no-cache-dir --root-user-action=ignore --prefer-binary --upgrade"
+
 tasks:
   default:
     cmds: [task --list]
     silent: true
 
+  all:
+    desc: Install all requirements
+    deps:
+      - ansible
+      - ansible-collections
+      - ansible-roles
+      - mkdocs
+      - yamllint
+    cmds:
+      - task: openssh-client
+
   ansible:
     desc: Install Ansible
     cmds:
-      - pip3 install --no-input --upgrade -r {{.REQS_FILE}}
+      - pip3 install {{.PIP_OPTS}} -r {{.REQS_FILE}}
     status:
       - python3 -c "import pkg_resources; pkg_resources.require(open('{{.REQS_FILE}}',mode='r'))"
     vars:
@@ -34,7 +48,7 @@ tasks:
   mkdocs:
     desc: Install mkdocs
     cmds:
-      - pip3 install --no-input --upgrade -r {{.REQS_FILE}}
+      - pip3 install {{.PIP_OPTS}} -r {{.REQS_FILE}}
     status:
       - python3 -c "import pkg_resources; pkg_resources.require(open('{{.REQS_FILE}}',mode='r'))"
     vars:
@@ -51,7 +65,7 @@ tasks:
   yamllint:
     desc: Install yamllint
     cmds:
-      - pip3 install --no-input --upgrade -r {{.REQS_FILE}}
+      - pip3 install {{.PIP_OPTS}} -r {{.REQS_FILE}}
     status:
       - python3 -c "import pkg_resources; pkg_resources.require(open('{{.REQS_FILE}}',mode='r'))"
     vars:
