@@ -12,3 +12,9 @@ spec:
     githubConfigUrl: https://github.com/bcbrookman/homeops
     githubConfigSecret: homeops-arc-app
     runnerScaleSetName: homeops-arc-runners
+    template:
+      spec:
+        containers:
+          - name: runner
+            image: ghcr.io/bcbrookman/homeops-cicd:latest
+            command: ["/home/runner/run.sh"]

@@ -89,13 +89,14 @@ tasks:
     cmds:
       - docker exec -it homeops-cicd bash
 
-  docker-test:pull: docker pull summerwind/actions-runner-dind:ubuntu-24.04
+  docker-test:pull: docker pull ghcr.io/bcbrookman/homeops-cicd:latest
 
   docker-test:run: docker run --name homeops-cicd
                    --detach -it --env-file .env.staging
                    -v ./:/homeops -w /homeops --privileged
                    -p 8080:8080 -u root
-                   summerwind/actions-runner-dind:ubuntu-24.04 bash -c 'sleep infinity'
+                   ghcr.io/bcbrookman/homeops-cicd:latest
+                   bash -c 'sleep infinity'
                    || docker start homeops-cicd
 
   docker-test:apt-update: docker exec homeops-cicd apt update

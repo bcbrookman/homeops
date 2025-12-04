@@ -29,27 +29,12 @@ jobs:
         with:
           submodules: true
 
-      - name: Setup Task
-        uses: arduino/setup-task@v2
-        with:
-          version: '3.19.0'
-
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
           terraform_version: '1.4.4'
           terraform_wrapper: false
-
-      - name: Setup Mozilla SOPS
-        uses: mdgreenwald/mozilla-sops-action@v1.6.0
-        with:
-          version: '3.7.3'
 
       - name: Setup Ansible SSH Keys
         run: |
