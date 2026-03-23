@@ -2,16 +2,16 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/carlpett/sops" {
-  version = "1.4.0"
+  version = "1.4.1"
   hashes = [
-    "h1:vpSkG4DCm7h9xKH+7yVWQohvUkwj4DxYMHMa540KOko=",
-    "zh:16a29544498de504d8f451fe7168dd3518739e5f2afc92d5e75d564951bd5a5c",
-    "zh:39f8913224a463aa8a1cdf7ef8c5c8e4fdea8631387016aefa1a688a1fac5a53",
-    "zh:432fbb45a6006855f4fdd14f386efb93d151213f2e95a4a6e775048825e4ebb6",
-    "zh:96a6f2b1bb89be020e115096745146bcbac07cde46f530a8891f9fddc15eee91",
-    "zh:99689b2cf75b0b7703c031417f371a54fe201eb342728adaadb7d558bfecba31",
-    "zh:ace19ad9cd9b0e7c981a9f0c0a87f4aacb644a7837aa3baa7cfa06c25a96f007",
-    "zh:ec13176354490aa6e2ee3481539c15ee073593e14e459701c9a6e09072cf7ada",
+    "h1:HyIxpskyTiLdJhGFJYzCk45IsG7zMe3K+y7em3k23BE=",
+    "zh:4df8dea170a4cd926ca6ef0b9fa6fd1d8c1fa9bc9e78333d544a74c24e269cf9",
+    "zh:5cf661333ec5d5cce3b7c0fc399052cf8f8c50f6cb0a50f5aec2f91d83685e1e",
+    "zh:680616383404bc836a2d740a0dfae4691c18c8616f346e8fa795a1d790a2d888",
+    "zh:8ef127e590bd676718bc82afc0f1cad8d0a93d82e935ec21b22d6ae2fc2bff9f",
+    "zh:d030531c7b61922d4f4150c45a87c48ed5c6743348dbbfe70d34191cd13f2649",
+    "zh:d8c138c2c0d7c7d4e72a4ab667772e8f96ec17e13ffe0c6fbe21457e82c140f0",
+    "zh:fd3903e0f2040b67550bbce3b58e4e615a738993bc787f71adbc41afe38df518",
   ]
 }
 
