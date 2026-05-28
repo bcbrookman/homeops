@@ -45,5 +45,5 @@ spec:
     kind: GitRepository
     name: flux-system
   update:
-    path: software-layer/k8s/apps/base/tautulli/
+    path: software-layer/k8s/apps/
     strategy: Setters
