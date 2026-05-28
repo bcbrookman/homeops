@@ -5,6 +5,16 @@
 ---
 version: 2
 updates:
+  - package-ecosystem: docker
+    directories:
+      - /
+    schedule:
+      interval: weekly
+    assignees:
+      - bcbrookman
+    commit-message:
+      prefix: chore
+      include: scope
   - package-ecosystem: github-actions
     directory: /
     schedule:
