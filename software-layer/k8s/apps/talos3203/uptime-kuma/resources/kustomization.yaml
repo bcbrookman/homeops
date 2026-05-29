@@ -1,4 +1,3 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: uptime-kuma
@@ -8,4 +7,4 @@ resources:
   - ../../../base/uptime-kuma/resources/
 images:
   - name: louislam/uptime-kuma
-    newTag: 1.23.16-alpine  # {"$imagepolicy": "flux-system:uptime-kuma:tag"}
+    newTag: 1.23.17-alpine # {"$imagepolicy": "flux-system:uptime-kuma:tag"}
