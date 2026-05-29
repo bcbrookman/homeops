@@ -13,3 +13,17 @@ resources:
   - ./tautulli/
   - ./uptime-kuma/
   - ./unifi/
+patches:
+  - target:
+      kind: ImageUpdateAutomation
+    patch: |-
+      - op: replace
+        path: /spec/git/commit/messageTemplate
+        value: >
+          {{ if .Updated.Images -}}
+          chore(swl): update {{ (index .Updated.Images 0).Repository }}
+          to {{ (index .Updated.Images 0).Identifier }} (talos3203)
+          {{ else -}}
+          chore(swl): unspecified update
+          by {{ .AutomationObject }} ImageUpdateAutomation (talos3203)
+          {{ end -}}

@@ -4,3 +4,11 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ../../../base/homer/updates/
+patches:
+  - target:
+      kind: ImageUpdateAutomation
+      name: homer
+    patch: |-
+      - op: replace
+        path: /spec/update/path
+        value: software-layer/k8s/apps/talos3203/homer/

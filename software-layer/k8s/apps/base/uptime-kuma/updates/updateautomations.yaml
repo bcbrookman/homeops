@@ -47,5 +47,5 @@ spec:
     kind: GitRepository
     name: flux-system
   update:
-    path: software-layer/k8s/apps/
+    path: software-layer/k8s/apps/base/uptime-kuma/
     strategy: Setters

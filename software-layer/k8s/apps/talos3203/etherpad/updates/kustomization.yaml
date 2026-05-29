@@ -4,3 +4,11 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ../../../base/etherpad/updates/
+patches:
+  - target:
+      kind: ImageUpdateAutomation
+      name: etherpad
+    patch: |-
+      - op: replace
+        path: /spec/update/path
+        value: software-layer/k8s/apps/talos3203/etherpad/
