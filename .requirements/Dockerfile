@@ -1,4 +1,4 @@
-FROM ghcr.io/actions/actions-runner@sha256:b6614fce332517f74d0a76e7c762fb08e4f2ff13dcf333183397c8a5725b6e8e
+FROM ghcr.io/actions/actions-runner@sha256:08c30b0a7105f64bddfc485d2487a22aa03932a791402393352fdf674bda2c29
 
 LABEL org.opencontainers.image.source=https://github.com/bcbrookman/homeops
 LABEL org.opencontainers.image.description="Customized GitHub Actions Runner for HomeOps CI/CD"
