@@ -7,7 +7,7 @@ resources:
   - ./secrets.sops.yaml
 images:
   - name: etherpad/etherpad
-    newTag: "3.3.0" # {"$imagepolicy": "flux-system:etherpad:tag"}
+    newTag: "3.3.1" # {"$imagepolicy": "flux-system:etherpad:tag"}
 patches:
   - target:
       kind: Deployment
