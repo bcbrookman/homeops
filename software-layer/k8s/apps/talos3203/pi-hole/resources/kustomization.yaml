@@ -1,4 +1,3 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: pi-hole
@@ -9,4 +8,4 @@ patches:
   - path: ./svc-udp-patch.yaml
 images:
   - name: pihole/pihole
-    newTag: 2025.06.2  # {"$imagepolicy": "flux-system:pi-hole:tag"}
+    newTag: 2026.05.0 # {"$imagepolicy": "flux-system:pi-hole:tag"}

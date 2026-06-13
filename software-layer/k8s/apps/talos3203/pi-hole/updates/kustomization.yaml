@@ -4,3 +4,11 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ../../../base/pi-hole/updates/
+patches:
+  - target:
+      kind: ImageUpdateAutomation
+      name: pi-hole
+    patch: |-
+      - op: replace
+        path: /spec/update/path
+        value: software-layer/k8s/apps/talos3203/pi-hole/
