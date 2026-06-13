@@ -7,6 +7,7 @@ ignore: |
   **/flux-system/gotk-*
   **/homelab-desk/
   **/venv/
+  **/apps/**/resources/kustomization.yaml
 
 rules:
   comments:
