@@ -16,5 +16,5 @@
         line: Defaults:{{ ansible_user }} !requiretty
         state: present
         create: true
-        mode: 0440
+        mode: '0440'
       notify: Ensure sshd has been restarted
