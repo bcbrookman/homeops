@@ -7,4 +7,4 @@ resources:
   - ../../../base/tautulli/resources/
 images:
   - name: lscr.io/linuxserver/tautulli
-    newTag: 2.17.1 # {"$imagepolicy": "flux-system:tautulli:tag"}
+    newTag: 2.17.2 # {"$imagepolicy": "flux-system:tautulli:tag"}
