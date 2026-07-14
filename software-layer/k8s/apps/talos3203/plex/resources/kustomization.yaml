@@ -6,4 +6,4 @@ resources:
   - ./ingresses.yaml
 images:
   - name: lscr.io/linuxserver/plex
-    newTag: 1.43.2 # {"$imagepolicy": "flux-system:plex:tag"}
+    newTag: 1.43.3 # {"$imagepolicy": "flux-system:plex:tag"}
