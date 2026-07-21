@@ -4,7 +4,10 @@ version: '3'
 run: once
 
 env:
-  PIP_OPTS: "--no-input --no-cache-dir --root-user-action=ignore --prefer-binary --upgrade"
+  PIP_OPTS: >-
+    --no-input --no-cache-dir --prefer-binary
+    --root-user-action=ignore --break-system-packages
+    --upgrade
 
 tasks:
   default:
