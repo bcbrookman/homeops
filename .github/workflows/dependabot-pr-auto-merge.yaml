@@ -8,19 +8,22 @@ on:  # yamllint disable-line rule:truthy
 
 permissions:
   pull-requests: write
+  contents: write
 
 jobs:
   auto-merge:
     if: |
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       startsWith(github.event.pull_request.head.ref, 'dependabot/')
     runs-on: ubuntu-latest
 
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
     steps:
-      - name: Auto-merge Dependabot PR
-        run: |
-          gh pr review --approve "$PR_URL"
-          gh pr merge --auto --squash "$PR_URL"
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          PR_URL: ${{github.event.pull_request.html_url}}
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+
+      - name: Auto-merge PR
+        run: gh pr merge --auto --squash "$PR_URL"
