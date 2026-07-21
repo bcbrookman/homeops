@@ -1,5 +1,5 @@
 ---
-name: Dependabot PR Auto-Merge
+name: Auto-merge Update PRs
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
@@ -12,14 +12,17 @@ permissions:
 
 jobs:
   auto-merge:
-    if: |
-      github.event.pull_request.user.login == 'dependabot[bot]' &&
-      startsWith(github.event.pull_request.head.ref, 'dependabot/')
+    if: >
+      (github.event.pull_request.user.login == 'dependabot[bot]' &&
+      startsWith(github.event.pull_request.head.ref, 'dependabot/'))
+      ||
+      (github.event.pull_request.user.login == 'github-actions[bot]' &&
+      startsWith(github.event.pull_request.head.ref, 'fluxcdbot/'))
     runs-on: ubuntu-latest
 
     env:
-      PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      PR_URL: ${{github.event.pull_request.html_url}}
 
     steps:
       - name: Approve PR
