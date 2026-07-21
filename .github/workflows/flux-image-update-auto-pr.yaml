@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   auto-pr:
-    if: startsWith(github.ref_name, 'fluxcdbot/'
+    if: startsWith(github.ref_name, 'fluxcdbot/')
     runs-on: ubuntu-latest
 
     steps:
