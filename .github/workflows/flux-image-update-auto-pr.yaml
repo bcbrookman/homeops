@@ -6,12 +6,11 @@ on:  # yamllint disable-line rule:truthy
 
 permissions:
   pull-requests: write
+  contents: write
 
 jobs:
-  Auto-PR:
-    if: |
-      github.actor == 'github-actions[bot]' &&
-      startsWith(github.ref_name, 'fluxcdbot/')
+  auto-pr:
+    if: startsWith(github.ref_name, 'fluxcdbot/'
     runs-on: ubuntu-latest
 
     steps:
@@ -20,11 +19,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create new Pull Request
-        run: |
-          gh pr create --base "main" --fill
-          gh pr review --approve "$PR_URL"
-          gh pr merge --auto --squash "$PR_URL"
+      - name: Create new PR
+        run: gh pr create --base "main" --fill
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{github.event.pull_request.html_url}}
