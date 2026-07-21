@@ -1,5 +1,5 @@
 ---
-name: Dependabot Auto-Merge
+name: Dependabot PR Auto-Merge
 
 on:  # yamllint disable-line rule:truthy
   pull_request:
@@ -10,10 +10,10 @@ permissions:
   pull-requests: write
 
 jobs:
-  Dependabot-Auto-Merge:
+  auto-merge:
     if: |
       github.actor == 'dependabot[bot]' &&
-      startsWith(github.ref_name, 'dependabot/')
+      startsWith(github.event.pull_request.head.ref, 'dependabot/')
     runs-on: ubuntu-latest
 
     steps:
