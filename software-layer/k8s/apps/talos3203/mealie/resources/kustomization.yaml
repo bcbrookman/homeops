@@ -6,4 +6,4 @@ resources:
   - ./ingresses.yaml
 images:
   - name: ghcr.io/mealie-recipes/mealie
-    newTag: v3.24.0 # {"$imagepolicy": "flux-system:mealie:tag"}
+    newTag: v3.25.1 # {"$imagepolicy": "flux-system:mealie:tag"}
