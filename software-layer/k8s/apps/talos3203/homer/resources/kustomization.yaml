@@ -6,4 +6,4 @@ resources:
   - ./ingresses.yaml
 images:
   - name: b4bz/homer
-    newTag: v26.4.2 # {"$imagepolicy": "flux-system:homer:tag"}
+    newTag: v26.11.1 # {"$imagepolicy": "flux-system:homer:tag"}
